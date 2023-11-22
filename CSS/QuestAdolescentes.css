@@ -1,0 +1,219 @@
+﻿* {margin:0; padding:0;}
+
+body {
+	font-family: Tahoma;
+    color:#444;
+	font-size:14px;
+	font-style:normal;
+
+    background:#fff;
+}
+
+img {border:0; outline: none}
+input {outline: none;}
+.Center {text-align: center;}
+.Right {text-align: right;}
+.Error {color:#f00;}
+.Error ul {
+    margin:15px 0 0 25px;
+}
+
+#container {
+    max-width: 1080px;
+    margin: auto;
+    position: relative;
+}
+
+#header {
+    height: 55px;
+    padding: 5px;
+    margin-bottom: 30px;
+    border-bottom: solid 1px #eee;
+}
+#header #logo {float:left;}
+#header #commands {float:right; margin-top: 33px}
+#header #commands a {
+    text-decoration: none;
+    color:#ccc;
+}
+#header #commands a:hover {
+    text-decoration: underline;
+    color:#09c;
+}
+
+#content {
+    clear: both;
+}
+#content #andamento {
+    position: absolute;
+    top:38px; right: 50px;
+}
+#content h1, #content h2 {
+    font-family: 'Gochi Hand', 'Gloria Hallelujah', 'Schoolbell', cursive;
+    font-size: 60pt;
+    line-height: 1.25em;
+}
+#content h2 {font-size: 32pt;}
+
+table.FormQuest {
+    width:600px;
+    margin:auto;
+}
+table.FormQuest tr.Field td {padding:15px 0 5px 0; font-weight: 700;}
+table.FormQuest span {margin:0 15px 0 3px;}
+
+table.FormQuest div.checkbox {display: inline-block;}
+
+table.FormQuest input[type=text],
+table.FormQuest select,
+table.FormQuest textarea
+{
+    padding:3px 4px;
+    border-radius: 3px;
+    border:solid 1px #bbb;
+    outline: none;
+}
+table.FormQuest input[type=text]:focus,
+table.FormQuest select:focus,
+table.FormQuest textarea:focus
+{
+    border-color: #0099cc;
+}
+
+table.Perguntas {width:100%;}
+table.Perguntas tr:hover td {background:#fafafa;}
+table.Perguntas tr:hover td.imagem-pergunta {background:#fff;}
+table.Perguntas td {
+    padding:15px;
+    vertical-align: middle;
+    font-size: 16px;
+}
+table.Perguntas th {
+    font:normal 10pt Arial;
+    text-align: center;
+    color:#999;
+    padding: 5px;
+}
+table.Perguntas th.Enunciado {
+    font-family: 'Gochi Hand', 'Gloria Hallelujah', 'Schoolbell', cursive;
+    font-size: 24pt;
+    line-height: 1.25em;
+    text-align: left;
+    vertical-align: bottom;
+    color:#222;
+}
+table.Perguntas input[type=radio] {cursor: pointer}
+table.Perguntas .imagem-pergunta img {
+    width: 215px;
+    height: auto;
+    /*position: relative;
+    left: -25px;*/
+}
+
+div.intro {
+    background: url(../Quest/ReportImages/QuestAdolescentes_0.jpg) no-repeat 45% bottom;
+    height: 325px;
+}
+
+div.finalizar {
+    background: url('../Quest/ReportImages/QuestAdolescentes_99.jpg') no-repeat -15px -125px;
+    height: 475px;
+}
+div.finalizar .Center {text-align: right;}
+
+/** Custom Radio **/
+/*circle light blue*/
+/*
+input[type=radio].css-checkbox {
+    display:none;
+}
+
+input[type=radio].css-checkbox + label.css-label {
+    padding-left:27px;
+    height:22px;
+    display:inline-block;
+    line-height:22px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:22px;
+    vertical-align:middle;
+    cursor:pointer;
+
+}
+
+input[type=radio].css-checkbox:checked + label.css-label {
+    background-position: 0 -22px;
+}
+label.css-label {
+    background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_dd4525fd6bcd2e0b1510a19be3897dba.png);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+*/
+
+/*circle dark blue*/
+/*
+input[type=radio].css-checkbox {
+    display:none;
+}
+
+input[type=radio].css-checkbox + label.css-label {
+    padding-left:27px;
+    height:22px;
+    display:inline-block;
+    line-height:22px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:22px;
+    vertical-align:middle;
+    cursor:pointer;
+
+}
+
+input[type=radio].css-checkbox:checked + label.css-label {
+    background-position: 0 -22px;
+}
+label.css-label {
+    background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_6488f6625f8516801043511b8be871c2.png);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}*/
+
+/*rounded square light blue*/
+input[type=radio].css-checkbox {
+    display:none;
+}
+
+input[type=radio].css-checkbox + label.css-label {
+    padding-left:30px;
+    height:25px;
+    display:inline-block;
+    line-height:25px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:25px;
+    vertical-align:middle;
+    cursor:pointer;
+
+}
+
+input[type=radio].css-checkbox:checked + label.css-label {
+    background-position: 0 -25px;
+}
+label.css-label {
+    background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_7c33a91a4de6b30e3c139a686ec466bc.png);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

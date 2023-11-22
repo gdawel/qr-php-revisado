@@ -1,0 +1,257 @@
+html, body {height:100%;}
+body {}
+body, a {font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size:12px; color:#404040;}
+img {border:0;}
+.hidden {display:none;}
+.FloatRight {float:right;}
+.Top {vertical-align: top;}
+.Center {text-align: center;}
+
+/* fonts */
+h1, h2, h3, h4, h5, h6 {padding:0; margin:25px 0 10px 0; font-family:'Open Sans', Arial, Helvetica, sans-serif; color:#404040; font-weight:bold; line-height:1em;}
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {font-family:'Open Sans', Arial, Helvetica, sans-serif; color:#404040; font-weight:bold; line-height:1em;}
+h1, h1 a {font-size:38px;}
+h2, h2 a {font-size:21px;}
+h3, h3 a {font-size:18px;}
+h4, h4 a {font-size:16px;}
+h5, h5 a {font-size:14px;}
+h6, h6 a {font-size:13px;}
+p {color:#404040; line-height:21px; font-size:13px;}
+pre {clear:both;}
+
+
+#container {
+    width:1080px;
+    margin:auto;
+}
+
+#header a {
+    float:right;
+    top: -5px;
+    position: relative;
+}
+
+.intro {
+    margin-bottom: 30px;
+    float:left;
+    clear: both;
+}
+.intro1 {
+    float:left;
+    width: 38.5%;
+    margin-right: 8%;
+}
+.intro2 {
+    float:left;
+    width: 53.5%;
+    margin-top: 20px;
+}
+
+.intro-stress-grade {
+    background: #f8f8f8;
+    padding: 30px 10px;
+    text-align: center;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.list-afirmacoes {
+    float: left;
+    /*margin-right: 100px;*/
+}
+    .list-afirmacoes-stress {
+        margin:20px 0 0 200px;
+        width: 850px;
+    }
+.list-item {
+    font-size: 1.5em;
+    margin-bottom: 25px;
+}
+    .list-item-texto {
+        display: inline-block;
+    }
+    .list-item-resposta {
+        display: inline-block;
+    }
+        .list-item-resposta label {
+            margin-right: 5px;
+            padding: 2px 6px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-size: .9em;
+            cursor: pointer;
+        }
+        .list-item-resposta label.stress {
+            margin:0 0 0 10px;
+        }
+        .list-item-resposta label:hover {background-color: #e8e8e8; }
+        .list-item-resposta label.selected {background-color: #0099cc; color: #fff;}
+        .list-item-resposta input {display: none;}
+    .list-item .slider {
+        display: inline-block;
+        width: 100px;
+    }
+    .ui-slider-handle {outline:none;}
+.error {
+    color:#f00;
+    margin-left:10px;
+    font-style: italic;
+}
+
+.user-info {
+    float: left;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+    .user-info-stress {float:none; margin: 20px auto; width:430px;}
+
+.user-info input[type="text"] {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    border-radius: 4px;
+    border: solid 1px #ccc;
+    padding: 3px 5px;
+}
+    .user-info .two-columns {
+        float: left;
+        width: 200px;
+    }
+        .user-info .two-columns input {
+            width: 190px;
+        }
+    .user-info .right-column {
+        margin-left:30px;
+    }
+
+.user-info a.submit {
+    font-size: 1.75em;
+    text-decoration: none;
+    background: #09c;
+    color: #fff;
+    padding: 6px 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+    display: inline-block;
+}
+.user-info a.submit-feedback {display: none;}
+.user-info a.submit:hover {
+    background: #08b;
+}
+.user-info a.disabled,
+.user-info a.disabled:hover {background: #999;}
+
+
+.results {
+    text-align: center;
+    float: left;
+    width: 70%;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    margin: 0 15% 25px 15%;
+}
+.results-engajamento {
+    width: 49%;
+    margin: 0;
+}
+.results-stress {
+    width: 40%;
+    margin: 0 30% 25px 30%;
+}
+
+.results .fator,
+.results .final{
+    font-size: 1.5em;
+    background: #eeeeee;
+    padding: 6px 15px;
+    border-radius: 6px;
+    margin: 0 5px 12px 5px;
+    display: inline-block;
+}
+.results .final {
+    display: block;
+    color:#fff;
+}
+.results-stress .fator {
+    font-size: 2.5em;
+    color:#fff;
+    background: #217edf;
+}
+.results .devolutiva {
+    text-align: left;
+    margin-top: 10px;
+    padding: 6px;
+}
+.results .fore-red span, span.fore-red, span.fore-Baixa, span.fore-Fraca {color:#a00; font-weight: bold;}
+.results .back-red {background-color:#a00;}
+.results .fore-green span, span.fore-green, span.fore-Alta, span.fore-Forte {color:#0a0; font-weight: bold;}
+.results .back-green {background-color:#0a0;}
+
+.results a:link, .results a:visited
+{
+    color:#2272ff;
+    font-size: 1em;
+    text-decoration:underline;
+}
+.results a:hover
+{
+    color:#2272cc;
+    text-decoration: underline;
+}
+
+.results table {margin-bottom: 25px; border-collapse: collapse;}
+.results table tr th {
+    padding: 4px 0 0 0;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+.results table tr td {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+
+
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+
+.clearfix:after {
+    clear: both;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}
+
+.clearleft {clear:left;}

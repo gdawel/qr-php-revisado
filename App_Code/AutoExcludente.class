@@ -1,0 +1,10 @@
+<?php
+
+class AutoExcludente {
+	var $id, $modeloquestionarioid, $fatorid, $valorcorrecao;
+	var $regras;
+	
+	function __construct() {}
+	
+}
+?>
