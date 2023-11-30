@@ -54,7 +54,7 @@ function Router() {
 						</table>
 						
 						<div class='Buttons'>";
-							Button::RenderSubmit(null, 'Acessar', 'Acesse e responda ao Quest', 'done', 'positive');
+							Button::RenderSubmit(null, 'Acessar', 'Acesse e responda ao QUEST_Resiliencia', 'done', 'positive');
 							Button::Render(null, 'Voltar', '../index.php', 'Voltar à página inicial da SOBRARE', 'undo'); 
 							echo "						
 						</div>
@@ -84,7 +84,7 @@ function Router() {
 					<h2>Não possui acesso?</h2>";
 					
 					if ($form_type == '1')
-						echo "<p>Clique <a href='../contato.php'>aqui</a> e solicite mais informações de como utilizar uma pesquisa com o Quest_Resiliência.</p>";
+						echo "<p>Clique <a href='../contato.php'>aqui</a> e solicite mais informações de como utilizar uma pesquisa com o QUEST_Resiliência.</p>";
 					else
 						echo "<p>Clique <a href='../associar.php'>aqui</a> e sabia como se associar a SOBRARE.</p>";
 	echo "				

@@ -57,7 +57,7 @@ class SqlHelper {
 		
 		//$this->environment = AMBIENTE_DESENVOLVIMENTO;
 		//$this->environment = AMBIENTE_HOMOLOGACAO;
-        $this->environment = AMBIENTE_DESENVOLVIMENTO;
+        $this->environment = AMBIENTE_PRODUCAO;
 		
 		switch ($this->environment) {
 			case  AMBIENTE_DESENVOLVIMENTO:

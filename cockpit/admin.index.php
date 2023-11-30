@@ -115,7 +115,7 @@ function AdminIndex() {
 						<td>				
 							<h2>Modelos de Questionários</h2>
 						</td><td>
-							Administrar Modelos de Questionários do Quest_Resiliência.
+							Administrar Modelos de Questionários do QUEST_Resiliência.
 						</td>
 					</tr>
                     
@@ -142,7 +142,7 @@ function AdminIndex() {
 						<td>				
 							<h2>Relatórios</h2>
 						</td><td>
-							Administrar textos e seções dos relatórios do Quest_Resiliência.
+							Administrar textos e seções dos relatórios do QUEST_Resiliência.
 						</td>
 					</tr>
                     

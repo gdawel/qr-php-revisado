@@ -305,7 +305,7 @@ class Questionario
 	 	
 	 	$msg = new Email();
 	 	$msg->to = $this->infos['Email'];
-	 	$msg->subject = utf8_encode('Seu acesso ao Quest_Resiliência');
+	 	$msg->subject = utf8_encode('Seu acesso ao QUEST_Resiliência');
 	 	$msg->message = utf8_encode("
                             <html>
 		 						<style>
@@ -316,8 +316,8 @@ class Questionario
 									<img src='http://www.sobrare.com.br/css/images/logo2_small.png' alt='SOBRARE' align='right' />
 									<p>$nome</p>
 									<br />
-									<p>Você foi convidado a responder o Quest_Resiliência!</p>
-									<p>Acesse <a href='http://sobrare.com.br/Quest/login.php' title='Acesse o Quest_Resiliência'>aqui</a> site da SOBRARE e informe seus dados de acesso abaixo.</p>
+									<p>Você foi convidado a responder o QUEST_Resiliência!</p>
+									<p>Acesse <a href='http://sobrare.com.br/Quest/login.php' title='Acesse o QUEST_Resiliência'>aqui</a> site da SOBRARE e informe seus dados de acesso abaixo.</p>
 									<table>
 										<tr>
 											<th>Usuário: </th>
@@ -468,7 +468,7 @@ class Questionario
 									<p>$nome</p>
 									<br />
 									<p>O questionário #$this->id, da sua pesquisa '$pesquisa->titulo' está concluído e disponível para consulta na Área do Gestor.</p>
-									<p>Acesse <a href='http://www.sobrare.com.br/cockpit/quest.php?id=$this->id' title='Acesse o Quest_Resiliência'>aqui</a> o site da 
+									<p>Acesse <a href='http://www.sobrare.com.br/cockpit/quest.php?id=$this->id' title='Acesse o QUEST_Resiliência'>aqui</a> o site da 
 									SOBRARE e informe seus dados de acesso, caso queira visualizar o questionário.</p>
 									<br /><br />
 									<p>Obrigado.</p>

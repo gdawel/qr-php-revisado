@@ -84,7 +84,7 @@ function RenderDefault() {
 			
 			<tbody id='questsNormalLabel'>
 				<tr class='Field'>				
-					<td colspan='2'>Qtde de questionários <span class='Red'>*</span></td>
+					<td colspan='2'>Qtde Quests <span class='Red'>*</span></td>
 				</tr>
 				<tr>
 					<td colspan='2'><input type='text' size='10' name='qtde' id='qtde' value='".getPost('qtde', null, true)."' /></td>
@@ -162,12 +162,7 @@ function savePesquisa() {
 	}
 	
 	if (isset($_POST['produtos'])) {
-		$selectedProdutos = !empty($_POST['produtos']) ? $_POST['produtos'] : array();
-                
-                //add por default os produtos 3 (tabela de índice) e 4 (tabela de categorias)
-                $selectedProdutos[] = PRODUTO_TABELA_INDICE;
-                $selectedProdutos[] = PRODUTO_TABELA_CATEGORIA;
-                
+		$selectedProdutos = $_POST['produtos'];
 		$produtos = new Produtos();
 				
 		foreach ($selectedProdutos as $prodId) {

@@ -69,7 +69,7 @@ function GestorIndex() {
 
 	//Creditos
 	echo "<h2>Meus Saldos</h2>
-		<p>Visualize <a href='creditos_saldo.php'>aqui</a> seu saldo de créditos do Quest_Resiliência. 
+		<p>Visualize <a href='creditos_saldo.php'>aqui</a> seu saldo de créditos do QUEST_Resiliência. 
 		</p>";
 
 

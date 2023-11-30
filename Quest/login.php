@@ -22,8 +22,8 @@ function Router() {
 			$result = true;
 	} 
 
-	echo "<h1>Acesso Quest_Resiliência</h1>";
-	echo "<h2>Primeiro passo para responder o Quest_Resiliência</h2>
+	echo "<h1>Acesso QUEST_Resiliência</h1>";
+	echo "<h2>Primeiro passo para responder o QUEST_Resiliência</h2>
 	
 		<div id='frmLogin_errorloc' class='Error'>";		
 			if (!$result) {echo $msg;}
@@ -74,7 +74,7 @@ function Router() {
 	/*
 	echo "<br />
 		<h3>Não possui acesso?</h3>
-		<p>Conheça aqui os <a href='/sobrare/servicos.php'>serviços</a> do <strong>Quest_Resiliência</strong> que você pode adquirir.";
+		<p>Conheça aqui os <a href='/sobrare/servicos.php'>serviços</a> do <strong>QUEST_Resiliência</strong> que você pode adquirir.";
 	*/
 }
 
