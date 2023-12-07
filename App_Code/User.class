@@ -31,7 +31,7 @@ class User {
 class Users {
 	var $error;
 
-	function items($pageindex = 1, $pagesize = 10, $orderby='nome', &$totalrows, $filter = null) {
+	function items($pageindex = 1, $pagesize = 10, $orderby='nome', $totalrows = 0, $filter = null) {
 		$sql = new SqlHelper();
 		
 		//Validate params

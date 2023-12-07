@@ -31,14 +31,15 @@ class User {
 class Users {
 	var $error;
 
-	function items($pageindex = 1, $pagesize = 10, $orderby='nome', &$totalrows, $filter = null) {
+	function items($pageindex = 1, $pagesize = 10, $orderby='nome', $totalrows = 0, $filter = null) {
 		$sql = new SqlHelper();
 		
 		//Validate params
 		if (!is_int($pageindex)) $pageindex = 1;
 		if (!is_int($pagesize)) $pagesize = 10;
 		if ($pagesize > 50) $pagesize = 50;
-		$start = $pagesize * ($pageindex-1);		
+		$start = $pagesize * ($pageindex-1);	
+		if (!totalrows) $totalrows=0;	
 		
 		//Set orderby
 		switch ($orderby) {

@@ -27,7 +27,7 @@ function Router() {
 }
 
 function RenderDefault() {
-	global $msg, $msg_class;
+	global $msg, $msg_class, $totalrows;
 	//Print any messages
 	if (isset($msg)) MessageBox::Render($msg, $msg_class);
 
@@ -50,6 +50,7 @@ function RenderDefault() {
 	$pagesize = 25;
 	
 	$users = new Users();
+	// $lst = $users->items($page, $pagesize, 'nome', $totalrows, $filter);	
 	$lst = $users->items($page, $pagesize, 'nome', $totalrows, $filter);	
 	if ($totalrows) $countmsg = "($totalrows itens encontrados)"; else $countmsg = '';
 	
