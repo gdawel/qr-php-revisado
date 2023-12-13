@@ -1,0 +1,543 @@
+<?php
+
+require_once ('../Includes/fpdf_htmltable.php');
+require_once ('../App_Code/Pesquisa.class');
+require_once ('../App_Code/Questionario.class');
+require_once ('../App_Code/ModeloQuestionario.class');
+require_once ('../App_Code/CommonFunctions.php');
+require_once ('report_prod_16.barchart.php');
+require_once ('report_prod_16.linechart.php');
+
+ob_end_clean();
+
+class PDF extends FPDFWithHtmlTable
+{
+    private $clientelogofilename;
+
+    function setClienteLogoFilename($pesquisaid)
+    {
+        $this->clientelogofilename = "../Uploads/Clientes/logo_cliente_$pesquisaid.jpg";
+    }
+
+    function Capa($pesquisa)
+    {
+        $this->AddPage();
+
+        //Logo
+        $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
+        //Logo cliente
+        if (file_exists($this->clientelogofilename)) //Identificacao
+            $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+
+        $this->Ln(36);
+        //Logo report
+        $pacoteTipoId = $pesquisa->modeloquestionario->tipo->id;
+        $this->Image("ReportImages/report_intro_$pacoteTipoId"."_quant.png", 45, null, 125);
+
+			//Report title
+		  	$this->SetFillColor(240);        
+		  	$this->SetTextColor(99);
+	  		$this->SetFont('Verdana', '', 12);
+			$this->Cell(25);
+			$this->Cell(125, 10, utf8_decode($this->title), 0, 0, 'C', true);	
+			
+			//Identificacao
+        $this->Ln(24);
+        $this->TableIdentificacao($pesquisa);
+    }
+
+    function Header()
+    {
+        //Primeira pag sem header
+        if ($this->PageNo() == '1')
+            return;
+
+        //Logo
+        $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
+        //Cliente Logo
+        if (file_exists($this->clientelogofilename)) //Identificacao
+            $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+			
+			//title
+			$this->SetFont('Verdana', '', 8);
+			$this->Cell(80,4);
+			$this->Cell(0,4,utf8_decode($this->title),0,0);
+			
+        //Bottom border
+        $this->SetDrawColor(99, 99, 99);
+        $this->SetLineWidth(0.2);
+        $this->Line($this->lMargin, 20, $this->w - $this->rMargin, 20);
+
+        //Line break
+        $this->Ln(15);
+    }
+
+    function Footer()
+    {
+        //Primeira pag sem footer
+        if ($this->PageNo() == '1')
+            return;
+
+        //Position in mm from bottom
+        $this->SetY(-14);
+        //Font
+        $this->SetFont('Arial', 'I', 8);
+        //Text color
+        $this->SetTextColor(128);
+        //Text background
+        //$this->SetFillColor(250, 216, 156);
+        //Page number and text
+        $this->Cell(0, 6, utf8_decode('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0,
+            0, 'L', false, 'http://www.sobrare.com.br');
+        $this->Cell(0, 6, $this->PageNo(), 0, 0, 'R');
+
+        $this->SetDrawColor(128, 128, 128);
+        $this->SetLineWidth(0.2);
+        $this->Line($this->lMargin, $this->h - 14, $this->w - $this->rMargin, $this->h - 14);
+    }
+
+    function ChapterTitle($label, $subtitle = false, $addspaceafter = true, $addspacebefore = true)
+    {
+        if (!$subtitle) {
+            //Pre spacing
+            if ($addspacebefore)
+                $this->Ln(10);
+            //Color and font
+            //$this->SetTextColor(56, 130, 170);
+            $this->SetTextColor(34, 35, 93);
+            $this->SetFont('Verdana', 'B', 16);
+        } else {
+            //Pre spacing
+            if ($addspacebefore)
+                $this->Ln(8);
+            //Color and font
+            //$this->SetTextColor(31, 78, 123);
+            $this->SetTextColor(34, 35, 93);
+            $this->SetFont('Verdana', 'B', 14);
+        }
+
+        //Title
+        $this->Cell(0, 6, utf8_decode($label), 0, 1, 'L', false);
+
+        //Line break
+        if ($addspaceafter)
+            $this->Ln(3);
+    }
+
+    function ChapterBody($txt, $style = '')
+    {
+        //Font
+        $this->SetFont('Arial', $style, 10);
+        $this->SetTextColor(0);
+
+        $txt = explode("\n", $txt);
+        foreach ($txt as $t) {
+            if (substr($t, 0, 3) == '-- ') {
+                //Bullet paragraph
+                $this->MultiCellBullet(0, 5, utf8_decode(str_replace('-- ', '', $t)));
+                $this->Ln(2);
+            } else {
+                //Normal paragr
+                $this->MultiCell(0, 5, utf8_decode($t));
+                //Line break and spacing
+                $this->Ln(4);
+            }
+        }
+    }
+
+    function ChapterNotes($txt)
+    {
+        //Font
+        $this->SetFont('Times', '', 10);
+        $this->SetTextColor(0);
+
+        $txt = explode("\n", $txt);
+        foreach ($txt as $t) {
+            $this->MultiCell(0, 5, utf8_decode($t));
+            //Line break and spacing
+            $this->Ln(1);
+        }
+    }
+
+    //MultiCell with bullet
+    function MultiCellBullet($w, $h, $txt, $border = 0, $align = 'J', $fill = false)
+    {
+        //Set bullet char
+        $blt = chr(149);
+
+        //Get bullet width including margins
+        $blt_width = $this->GetStringWidth($blt) + $this->cMargin * 2;
+
+        //Save x
+        $bak_x = $this->x;
+
+        //Output bullet
+        $this->Cell($blt_width * 2);
+        $this->Cell($blt_width, $h, $blt, 0, '', $fill);
+
+        //Output text
+        if ($w == 0) {
+            $w = $this->w - $this->lMargin - $this->rMargin;
+        }
+        $this->MultiCell($w - $blt_width * 3, $h, $txt, $border, $align, $fill);
+
+        //Restore x
+        $this->x = $bak_x;
+    }
+
+	  function TableIdentificacao($pesquisa) {     	
+        $l = 32;
+   
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 8);
+        $this->SetTextColor(99);
+        $this->Cell(85, 0, 'PROJETO', 0, 1);
+
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 10);
+        $this->SetTextColor(0);
+        $this->Cell(85, 9, utf8_decode($pesquisa->titulo), 0, 1);
+        
+        $this->Ln(3);
+        
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 8);
+        $this->SetTextColor(99);
+        $this->Cell(40, 0, 'ANO DA PESQUISA', 0, 0);
+
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 8);
+        $this->SetTextColor(99);
+        $this->Cell(40, 0, utf8_decode('DATA DA ELABORAÇÃO'), 0, 1);
+        
+        
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 10);
+        $this->SetTextColor(0);
+        $createddate = new DateTime($pesquisa->createddate);
+        $this->Cell(40, 9, utf8_decode($createddate->format('Y')), 0, 0);
+
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 10);
+        $this->SetTextColor(0);
+        $this->Cell(40, 9, utf8_decode(date("d/m/Y")), 0, 1);        
+    }    
+}
+
+//Current user
+$usr = Users::getCurrent();
+
+//Load data
+$pesquisaid = getIntQueryString('id', 0, true);
+
+//Check permission
+$pesquisas = new Pesquisas();
+$pesquisa = $pesquisas->item($pesquisaid);
+if ((!isset($pesquisa)) || ($pesquisa->isAccessDenied())) {
+    echo utf8_decode("Acesso negado a este relatório.");
+    return;
+}
+
+//Verifica se produto foi adquirido
+if ((!isset($pesquisa->produtos[16]))) {
+	echo utf8_decode("Acesso negado a este relatório.");
+   return;
+}
+
+//Release objs
+$pesquisas = null;
+$modelos = null;
+
+//Start pdf
+$pdf = new PDF();
+$pdf->AddFont('Verdana', 'B', '2baadfeddaf7cb6d8eb5b5d7b3dc2bfc_verdanab.php');
+$pdf->AddFont('Verdana', '', 'e1cdac2412109fd0a7bfb58b6c954d9e_verdana.php');
+$title = 'Análise Quantitativa';
+$pdf->SetTitle($title);
+$pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
+$pdf->SetLeftMargin(20);
+$pdf->SetRightMargin(15);
+
+//Chart Width
+$chartWidth = 172;
+
+//Set logo
+$pdf->setClienteLogoFilename($pesquisa->id);
+
+//Capa
+$pdf->Capa($pesquisa);
+$pdf->AddPage();
+
+//Get report text sections
+$reportsections = $pesquisa->modeloquestionario->getReportSections(REPORT_ANALISE_QUANTITATIVA);
+
+
+//Print Report Sections
+$first_section = true;
+if ($reportsections) {
+    foreach ($reportsections as $section) {
+        if ($section->posicao != 99) { //posicao 99 é notas de fim de report
+            $pdf->ChapterTitle($section->title, !$first_section, $first_section, !$first_section);
+            $pdf->ChapterBody($section->texto);
+
+            $first_section = false;
+        }
+    }
+}
+
+
+//Print Fatores
+$y_mult = 0;
+//Recupera os valores da populacao-base
+$pesquisa->modeloquestionario->getCountPopulacaoBase();
+
+foreach ($pesquisa->modeloquestionario->fatores as $fator) {
+    $pdf->AddPage();
+    $pdf->ChapterTitle("MCD $fator->nome ($fator->sigla)", false, true, false);
+    $pdf->ChapterBody($fator->descricaoAnaliseQuantitativa);
+    
+	 $pdf->ChapterTitle("Análise do impacto da distribuição dos índices", true, true, false);
+    $pdf->ChapterBody('Tabela do Impacto da Distribuição dos Índices no MCD', 'B');
+    
+	 $pdf->SetFont('Arial', '', 10);
+	 $pdf->Cell(50, 0, utf8_decode('População: ').$pesquisa->count_concluidos, 0, 1);	 
+	 $pdf->Cell(100, 8, utf8_decode('Dados da Distribuição dos Índices em %'), 0, 1);
+	 	
+		//$pdf->Cell(15);
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-P - Condição FRACA'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$dataValues[0] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'P - Tipo 4');
+		$dataValuesPopulacaoBase[0] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 4']) ?
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 4'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[0] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);	
+
+		$pdf->Cell(2);	
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-I - Condição FORTE'), 0, 0, 'L', true);		
+		$pdf->SetFillColor(240);
+		$dataValues[5] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'I - Tipo 1');
+		$dataValuesPopulacaoBase[5] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 1']) ? 
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 1'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[5] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-P - Condição MODERADA'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$dataValues[1] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'P - Tipo 3');
+		$dataValuesPopulacaoBase[1] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 3']) ? 
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 3'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[1] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+
+		$pdf->Cell(2);	
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-I - Condição BOA'), 0, 0, 'L', true);		
+		$pdf->SetFillColor(240);
+		$dataValues[6] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'I - Tipo 2');
+		$dataValuesPopulacaoBase[6] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 2']) ? 
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 2'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[6] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-P - Condição BOA'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$dataValues[2] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'P - Tipo 2');
+		$dataValuesPopulacaoBase[2] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 2']) ? 
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 2'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[2] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+
+		$pdf->Cell(2);	
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-I - Condição MODERADA'), 0, 0, 'L', true);		
+		$pdf->SetFillColor(240);
+		$dataValues[7] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'I - Tipo 3');
+		$dataValuesPopulacaoBase[7] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 3']) ?
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 3'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[7] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+	
+		$pdf->Ln();  	
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-P - Condição FORTE'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$dataValues[3] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'P - Tipo 1');
+		$dataValuesPopulacaoBase[3] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 1']) ? 
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['P - Tipo 1'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[3] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+
+		$pdf->Cell(2);	
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-I - Condição FRACA'), 0, 0, 'L', true);		
+		$pdf->SetFillColor(240);
+		$dataValues[8] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'I - Tipo 4');
+		$dataValuesPopulacaoBase[8] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 4']) ?
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['I - Tipo 4'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[8] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+		
+		$pdf->Ln(10);  	
+		
+		$pdf->Cell(30); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('PC-E - EQUILÍBRIO'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$dataValues[4] = $pesquisa->getCountQuestionariosByValorDescricao($fator->id, 'Excelente');
+		$dataValuesPopulacaoBase[4] = !isset($pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['Excelente']) ?
+												0 : $pesquisa->modeloquestionario->fatores[$fator->id]->qtdepopulacaobase['Excelente'];
+		$descricaoRelativeValue = $pesquisa->count_concluidos == 0 ? 
+											0 : $dataValues[4] / $pesquisa->count_concluidos * 100;
+		$pdf->Cell(15, 8, utf8_decode(number_format($descricaoRelativeValue, 0).'%'), 0, 0, 'C', true);
+	 	$pdf->Ln();
+	 	$pdf->Ln();
+	 
+	 
+		$pdf->ChapterBody("Distribuição dos Índices de Resiliência do MCD comparados com os Intervalos da Base (N:$pesquisa->count_concluidos)", 'B');
+		//grafico
+		$chartFilename = generateBarChart($dataValues, $fator);
+		$pdf->Image($chartFilename, $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $chartWidth )/2 + 2, null, $chartWidth);
+		$pdf->SetFont('Verdana', '', 6);
+		$pdf->Cell(55, 6, utf8_decode('©  Sociedade  Brasileria  de  Resiliência  2009.  CRPJ/SP  3825/J'), 0, 1);
+		
+		//$pdf->Ln();		
+	 	$pdf->AddPage();
+		
+		
+		//$pdf->ChapterTitle("MCD $fator->nome ($fator->sigla)", false, true, false);
+		$pdf->ChapterTitle("Estatistica Descritiva da Amostra Estudada", true, true, false);
+		$pdf->ChapterBody('Tabela das Medidas de Tendência Central dos Índices no MCD', 'B');
+		$pdf->SetFont('Arial', '', 10);
+	 	$pdf->Cell(50, 0, utf8_decode('População: ').$pesquisa->count_concluidos, 0, 1);
+	 	$pdf->Ln(4);
+	 	
+	 	//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('Valor Mínimo nos Índices'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$pdf->Cell(15, 8, utf8_decode($pesquisa->getValorMinimoByFator($fator->id)), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('Amplitude nos Índices'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$pdf->Cell(15, 8, utf8_decode($pesquisa->getAmplitudeByFator($fator->id)), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('Valor Máximo nos Índices'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$pdf->Cell(15, 8, utf8_decode($pesquisa->getValorMaximoByFator($fator->id)), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('Mdn'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$pdf->Cell(15, 8, utf8_decode($pesquisa->getMedianaByFator($fator->id)), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('s²(Var)'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$variance = $pesquisa->getVarianceByFator($fator->id);
+		$pdf->Cell(15, 8, utf8_decode(($variance)? number_format($variance, 2) : '-'), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);        
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('GL'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$gl = $pesquisa->getGrausDeLiberdadeByFator($fator->id);
+		$pdf->Cell(15, 8, utf8_decode($gl), 0, 0, 'C', true);
+		
+		$pdf->Ln();
+		
+		//$pdf->Cell(15); 
+	 	$pdf->SetFillColor(245);
+	  	$pdf->SetTextColor(0);
+		$pdf->SetFont('Verdana', '', 9);
+		$pdf->Cell(55, 8, utf8_decode('s (DP da Var)'), 0, 0, 'L', true);
+		$pdf->SetFillColor(240);
+		$dp = $pesquisa->getStandardDeviationByFator($fator->id);
+		$pdf->Cell(15, 8, utf8_decode(($dp) ? number_format($dp, 2) : '-'), 0, 0, 'C', true);		
+		
+		$pdf->Ln();
+	 	$pdf->Ln();	 
+	 	
+		$pdf->ChapterBody("Gráfico Comparativo no MCD - População desta Pesquisa vs. População-Base (N:$pesquisa->count_concluidos)", 'B');
+		//grafico
+		$chartFilename = generateLineChart($dataValues, $dataValuesPopulacaoBase, $fator);
+		$pdf->Image($chartFilename, $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $chartWidth )/2 + 2, null, $chartWidth);
+		$pdf->SetFont('Verdana', '', 6);
+		$pdf->Cell(55, 6, utf8_decode('©  Sociedade  Brasileria  de  Resiliência  2009.  CRPJ/SP  3825/J'), 0, 1);
+}
+
+//Notas finais
+if (isset($modelo->reportsections['99'])) {
+    //$pdf->Ln(12);
+    $pdf->AddPage();
+    $pdf->ChapterTitle($modelo->reportsections['99']->title, true, true, false);
+    $pdf->ChapterNotes($modelo->reportsections['99']->texto);
+}
+
+$pdf->Output('Relatorio.pdf', 'D');
+?>
