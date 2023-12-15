@@ -1,7 +1,7 @@
 <?php
 $pageTitle = 'SOBRARE Cockpit Admin | Publicações';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Publicacao.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Publicacao.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once 'admin.index.php';
 include_once '../Controls/pagination.ctrl.php';

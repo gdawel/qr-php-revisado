@@ -1,7 +1,7 @@
 <?php
 $pageTitle = 'SOBRARE Cockpit | Administração de usuários';
 $pesquisaid = '';
-include_once '../App_Code/User.class';
+include_once '../App_Code/User.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once '../Controls/msgbox.ctrl.php';
 include_once '../Controls/list.ctrl.php';

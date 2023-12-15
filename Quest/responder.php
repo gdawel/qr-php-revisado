@@ -3,8 +3,8 @@ ob_start();
 $pageTitle = 'SOBRARE - Sociedade Brasileira de Resiliência | Quest_Resiliência';
 include_once '../Controls/events.ctrl.php';
 include_once '../Controls/list.ctrl.php';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Questionario.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Questionario.class.php';
 include_once '../App_Code/CommonFunctions.php';
 
 checkAuth();

@@ -1,8 +1,8 @@
 <?php
 $pageTitle = 'SOBRARE Cockpit Admin | Associados';
-include_once '../App_Code/User.class';
-include_once '../App_Code/SqlHelper.class';
-include_once '../App_Code/Associado.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/SqlHelper.class.php';
+include_once '../App_Code/Associado.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once 'admin.index.php';
 include_once '../Controls/pagination.ctrl.php';

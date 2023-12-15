@@ -1,9 +1,9 @@
 <?php
 ob_start();
 $pageTitle = 'SOBRARE Cockpit | Adicionar Informações ao Questionário';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Pesquisa.class';
-include_once '../App_Code/Questionario.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Pesquisa.class.php';
+include_once '../App_Code/Questionario.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once '../Controls/msgbox.ctrl.php';
 include_once '../Controls/button.ctrl.php';

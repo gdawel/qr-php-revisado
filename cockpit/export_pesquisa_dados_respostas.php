@@ -1,6 +1,6 @@
 <?php
-include_once '../App_Code/Pesquisa.class';
-include_once '../App_Code/User.class';
+include_once '../App_Code/Pesquisa.class.php';
+include_once '../App_Code/User.class.php';
 include_once '../App_Code/CommonFunctions.php';
 
 $usr = Users::getCurrent();
@@ -13,7 +13,7 @@ $pesquisas = new Pesquisas();
 $id = getIntQueryString('id', 0, true);
 $pesquisa = $pesquisas->item($id);
 if (!$pesquisa) {
-	echo "Pesquisa não encontrada".
+	echo "Pesquisa nï¿½o encontrada".
 	exit;
 }
 
@@ -21,7 +21,7 @@ $filter = new Filter();
 $filter->add('q.StatusId', '=', '3');
 $quests = $pesquisa->getQuestionarios($filter);
 if (!$quests) {
-	echo "Nenhum questionário concluído para esta pesquisa.".
+	echo "Nenhum questionï¿½rio concluï¿½do para esta pesquisa.".
 	exit;
 }
 
@@ -33,13 +33,13 @@ echo "<h1>".utf8_decode($pesquisa->titulo)."</h1>";
 									
 echo "<table border='1'>
 				<tr>
-					<th>Código</th>
+					<th>Cï¿½digo</th>
 					<th>Pessoa</th>
-					<th>1a. Doença</th>
+					<th>1a. Doenï¿½a</th>
 					<th>Idade</th>
 					<th>Tempo</th>
 					<th>Consequencia</th>
-					<th>2a. Doença</th>
+					<th>2a. Doenï¿½a</th>
 					<th>Idade</th>
 					<th>Tempo</th>
 					<th>Consequencia</th>
@@ -47,11 +47,11 @@ echo "<table border='1'>
 					<th>UF Nascimento</th>
 					<th>Cidade</th>
 					<th>UF</th>
-					<th>Formação</th>
+					<th>Formaï¿½ï¿½o</th>
 					<th>Atividade</th>
 					<th>Escolaridade</th>
 					<th>Estado Civil</th>
-					<th>Religião</th>
+					<th>Religiï¿½o</th>
 					<th>Outro Idioma</th>";
 				//for($i = 1; $i<=count($quests[0]->perguntas); $i++) {echo "<th>Item $i</th>\n";}
 					
@@ -85,6 +85,6 @@ foreach ($quests as $q) {
 }
 echo "</table>";
 
-echo utf8_decode("<p>Relatório extraído em ".date('d/m/Y H:m').".</p>");
+echo utf8_decode("<p>Relatï¿½rio extraï¿½do em ".date('d/m/Y H:m').".</p>");
 
 ?>

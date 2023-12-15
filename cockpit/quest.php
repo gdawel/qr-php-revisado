@@ -1,8 +1,8 @@
 <?php
 $pageTitle = 'SOBRARE Cockpit | Detalhes do Questionário';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Questionario.class';
-include_once '../App_Code/Pesquisa.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Questionario.class.php';
+include_once '../App_Code/Pesquisa.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once '../Controls/msgbox.ctrl.php';
 include_once '../Controls/button.ctrl.php';
@@ -24,7 +24,7 @@ function Router() {
 			break;
 		
 		case 'resetquest':
-			resetQuest();
+			reset_Quest();
 			break;
 	}
 	
@@ -331,7 +331,7 @@ function recalcFatores() {
 	return $ret;
 }
 
-function resetQuest() {
+function reset_Quest() {
 	global $msg, $msg_style;
 	
 	$q = checkPermission();

@@ -1,8 +1,8 @@
 <?php
 $pageTitle = 'SOBRARE Cockpit Admin | Criar pesquisa';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Filter.class';
-include_once '../App_Code/Pesquisa.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Filter.class.php';
+include_once '../App_Code/Pesquisa.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once '../Controls/msgbox.ctrl.php';
 include_once '../Controls/list.ctrl.php';

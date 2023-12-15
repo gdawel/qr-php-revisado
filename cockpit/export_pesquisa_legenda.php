@@ -1,5 +1,5 @@
 <?php
-include_once '../App_Code/User.class';
+include_once '../App_Code/User.class.php';
 include_once '../Controls/list.ctrl.php';
 
 $usr = Users::getCurrent();
@@ -35,7 +35,7 @@ $ds = getListValues('pessoas_dificuldades');
 if ($ds) renderListValues('Pessoas que mais te ajudaram a superar dificuldades', $ds);
 
 $ds = getListValues('situacao_qdo');
-if ($ds) renderListValues('Com que idade você estava quando aconteceu?', $ds);
+if ($ds) renderListValues('Com que idade vocï¿½ estava quando aconteceu?', $ds);
 
 $ds = getListValues('situacao_duracao');
 if ($ds) renderListValues('Quanto tempo durou aproximadamente?', $ds);
@@ -53,12 +53,12 @@ $ds = getListValues('estadocivil');
 if ($ds) renderListValues('Estado Civil', $ds);
 
 $ds = getListValues('religiao');
-if ($ds) renderListValues('Religião', $ds);
+if ($ds) renderListValues('Religiï¿½o', $ds);
 
 //Idioma
 $ds = null;
 $ds[0]['value'] = 0;
-$ds[0]['text'] = 'Não';
+$ds[0]['text'] = 'Nï¿½o';
 $ds[1]['value'] = 1;
 $ds[1]['text'] = 'Sim';
 if ($ds) renderListValues('Fala outro idioma?', $ds);

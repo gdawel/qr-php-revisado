@@ -1,9 +1,9 @@
 <?php
 ob_start();
 $pageTitle = 'SOBRARE Cockpit | Inscrições';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Inscricao.class';
-include_once '../App_Code/Curso.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Inscricao.class.php';
+include_once '../App_Code/Curso.class.php';
 include_once '../App_Code/CommonFunctions.php';
 include_once '../Controls/msgbox.ctrl.php';
 include_once '../Controls/list.ctrl.php';

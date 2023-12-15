@@ -1,9 +1,10 @@
 <?php
 $pageTitle = 'SOBRARE Cockpit | Minhas Publicações';
-include_once '../App_Code/User.class';
-include_once '../App_Code/Publicacao.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/Publicacao.class.php';
 include_once '../App_Code/CommonFunctions.php';
-include_once '../App_Code/FileHandler.class';
+include_once '../App_Code/FileHandler.class.php';
+include_once '../App_Code/Filter.class.php';
 include_once '../Controls/pagination.ctrl.php';
 include_once '../Controls/msgbox.ctrl.php';
 require_once '../Controls/list.ctrl.php';

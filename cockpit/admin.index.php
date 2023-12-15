@@ -1,6 +1,6 @@
 <?php
-include_once '../App_Code/Publicacao.class';
-include_once '../App_Code/Associado.class';
+include_once '../App_Code/Publicacao.class.php';
+include_once '../App_Code/Associado.class.php';
 
 function AdminIndex() {
 	$interval = 15;

@@ -1,8 +1,8 @@
 <?php
 
 $pageTitle = 'SOBRARE Cockpit Admin | Pasta de Arquivos';
-include_once '../App_Code/User.class';
-include_once '../App_Code/FileHandler.class';
+include_once '../App_Code/User.class.php';
+include_once '../App_Code/FileHandler.class.php';
 include_once 'admin.index.php';
 include_once '../Controls/msgbox.ctrl.php';
 require_once '../Controls/button.ctrl.php';

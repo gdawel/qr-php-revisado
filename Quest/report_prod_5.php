@@ -7,9 +7,9 @@
  * */
 
 require_once ('../Includes/fpdf_htmltable.php');
-require_once ('../App_Code/Pesquisa.class');
-require_once ('../App_Code/Questionario.class');
-require_once ('../App_Code/ModeloQuestionario.class');
+require_once ('../App_Code/Pesquisa.class.php');
+require_once ('../App_Code/Questionario.class.php');
+require_once ('../App_Code/ModeloQuestionario.class.php');
 require_once ('../App_Code/CommonFunctions.php');
 
 ob_end_clean();

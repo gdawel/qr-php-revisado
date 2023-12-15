@@ -1,8 +1,0 @@
-<?php
-
-class AutoExcludente_Regra {
-	var $id, $perguntaid, $perguntaposicao, $operador, $valorreferencia;
-
-	function __construct() {}
-}
-?>

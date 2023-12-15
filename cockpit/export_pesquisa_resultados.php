@@ -1,6 +1,6 @@
 <?php
-include_once '../App_Code/Pesquisa.class';
-include_once '../App_Code/User.class';
+include_once '../App_Code/Pesquisa.class.php';
+include_once '../App_Code/User.class.php';
 include_once '../App_Code/CommonFunctions.php';
 
 $usr = Users::getCurrent();

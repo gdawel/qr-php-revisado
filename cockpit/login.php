@@ -8,7 +8,7 @@ ob_start();
 $pageTitle = 'SOBRARE - Sociedade Brasileira de Resiliência | Acesso do Gestor';
 $mnuServiços = 'active';
 include_once '../App_Code/CommonFunctions.php';
-include_once '../App_Code/User.class';
+include_once '../App_Code/User.class.php';
 include_once '../Controls/button.ctrl.php';
 include_once '../MasterPageQuest.htm.php';
 
