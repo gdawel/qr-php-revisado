@@ -150,7 +150,7 @@ class SqlHelper {
 		/                     ponto decimal com base no locale de forma errada.
 		/					  Dependendo do servidor, precisa voltar essa linha.
 		*/
-        //$floatString = str_replace($LocaleInfo["mon_thousands_sep"] , "", $floatString); 
+        $floatString = str_replace($LocaleInfo["mon_thousands_sep"] , "", $floatString); 
 		$floatString = str_replace($LocaleInfo["mon_decimal_point"] , ".", $floatString); 
         return str_replace(",", ".", floatval($floatString)); 
     } 
