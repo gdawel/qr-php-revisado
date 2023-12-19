@@ -146,12 +146,12 @@ class SqlHelper {
             return 'NULL';
 
         $LocaleInfo = localeconv();
-		/* Dawel: 14/12/2023: desabilitada a linha abaixo, pois estava fazendo o replace do
+		/* Dawel: 14/12/2023: desabilitada as duaslinha abaixo, pois estava fazendo o replace do
 		/                     ponto decimal com base no locale de forma errada.
 		/					  Dependendo do servidor, precisa voltar essa linha.
 		*/
-        $floatString = str_replace($LocaleInfo["mon_thousands_sep"] , "", $floatString); 
-		$floatString = str_replace($LocaleInfo["mon_decimal_point"] , ".", $floatString); 
+        //$floatString = str_replace($LocaleInfo["mon_thousands_sep"] , "", $floatString); 
+		//$floatString = str_replace($LocaleInfo["mon_decimal_point"] , ".", $floatString); 
         return str_replace(",", ".", floatval($floatString)); 
     } 
 
