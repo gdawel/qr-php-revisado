@@ -54,8 +54,10 @@ foreach ($data as $row) {
 
     } while ($limpar == 0);
 
-    echo "<p>" . utf8_encode($row['post_content']) . "</p><br>";
+    echo "================ Início do Conteúdo do Post ID: " . $row['ID'] . " ================<br><br>";
+    //echo "<p>" . utf8_encode($row['post_content']) . "</p><br>";
     echo "<p>" . utf8_encode($rest) . "</p><br>";
+    echo "================ Fim do Conteúdo do Post ID: " . $row['ID'] . " ================";
 }
 
 ?>
