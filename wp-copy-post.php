@@ -33,7 +33,29 @@ foreach ($data as $row) {
                 " / Título: " . utf8_encode($row['post_title']) . "<br>" .
                 " -> Status: " . $row['post_status'] . 
                 " / Data Publicação: " . $row['post_date'] . "</h3>";
+    $limpar = 0;
+    $rest = $row['post_content'];
+    do {
+        
+        $pos1 = strpos($rest, "[");
+        $pos2 = strpos($rest, "]");
+        //echo "pos1=".$pos1." / pos2=".$pos2."<br>";
+        $tamanho = strlen($rest);
+        if ($pos2 === false) {
+            $limpar = 1;
+        } else {
+            $limpar = 0;
+            if ($pos1 == 0) {
+                    $rest = substr($rest, $pos2+1, $tamanho);
+                } else {
+                    $rest = substr($rest, 0, $pos1) . substr($rest, $pos2+1, $tamanho);
+                }
+            }
+
+    } while ($limpar == 0);
+
     echo "<p>" . utf8_encode($row['post_content']) . "</p><br>";
+    echo "<p>" . utf8_encode($rest) . "</p><br>";
 }
 
 ?>
