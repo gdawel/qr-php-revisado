@@ -260,7 +260,7 @@ class Users {
 			}
 		
 		} else { //&type==2: Respondente
-			$sql->command = "SELECT q.PesquisaId, q.QuestionarioId, q.Nome, q.Email, p.StatusId AS PesquisaStatusId 
+			$sql->command = "SELECT q.PesquisaId, q.QuestionarioId, q.Nome, q.Email, p.StatusId AS `PesquisaStatusId` 
 									FROM questionarios q
 									INNER JOIN pesquisas p ON p.PesquisaId = q.PesquisaId 
 									WHERE q.QuestionarioId = ".$sql->escape_string($userid, true)." AND q.Password = ".$sql->escape_string($password, true);
@@ -338,7 +338,7 @@ class Users {
 		
 			//Send a confirmation email
 			$sql->command = "SELECT u.Nome, u.Email, 
-											(SELECT COUNT(*) FROM usersinroles ur WHERE ur.UserId = u.UserId AND ur.Rolename = 'Gestor') AS IsGestor  
+											(SELECT COUNT(*) FROM usersinroles ur WHERE ur.UserId = u.UserId AND ur.Rolename = 'Gestor') AS `IsGestor`  
 									FROM users u WHERE UserId = $id";
 			$sql->execute();
 			if ($r = $sql->fetch()) {

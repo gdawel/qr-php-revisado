@@ -71,7 +71,7 @@ class Publicacoes {
 	function getPendentesCount() {
 		$sql = new SqlHelper();
 		
-		$sql->command = "SELECT COUNT(*) as qtde 
+		$sql->command = "SELECT COUNT(*) as `qtde` 
 											FROM publicacoes p
 											WHERE p.IsPublicado = 0";
 		
@@ -86,7 +86,7 @@ class Publicacoes {
 	function NewItemsCountByPeriod($interval = 15) {
 		$sql = new SqlHelper();
 		
-		$sql->command = "SELECT COUNT(*) as qtde 
+		$sql->command = "SELECT COUNT(*) as `qtde` 
 											FROM publicacoes p
 											WHERE DATEDIFF(now(), p.DataPublicacao) <= $interval";
 		
@@ -146,7 +146,7 @@ class Publicacoes {
 		if ($start > $totalrows) {$start = 0; $pageindex = 1;}
 		
 		//Select
-		$sql->command = "SELECT p.*, t.PublicacaoTipo, u.Nome AS CreatedByName 
+		$sql->command = "SELECT p.*, t.PublicacaoTipo, u.Nome AS `CreatedByName` 
 											FROM publicacoes p
 											INNER JOIN publicacoes_tipos t ON p.PublicacaoTipoId = t.PublicacaoTipoId
 											INNER JOIN users u on p.CreatedBy = u.UserId 
