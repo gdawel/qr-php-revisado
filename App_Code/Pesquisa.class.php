@@ -352,12 +352,12 @@ class Pesquisas
     {
         $sql = new SqlHelper();
 
-        $sql->command = "SELECT p.PesquisaId, p.Titulo, p.Finalidade, p.Publico, p.PacoteId, pacote.Nome AS Pacote,
+        $sql->command = "SELECT p.PesquisaId, p.Titulo, p.Finalidade, p.Publico, p.PacoteId, pacote.Nome AS `Pacote`,
 		  									pacote.ModeloQuestionarioId,
-											p.QtdeQuest AS Total, p.PesquisadorId, u.Nome AS Pesquisador,
+											p.QtdeQuest AS `Total`, p.PesquisadorId, u.Nome AS `Pesquisador`,
 											p.CreatedDate, p.TipoId, tipo.Tipo, p.StatusId, st.Status,
-											(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 3) AS Concluidos,
-											(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 2) AS EmAndamento
+											(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 3) AS `Concluidos`,
+											(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 2) AS `EmAndamento`
 										FROM pesquisas p
 										INNER JOIN pesquisas_tipos tipo ON tipo.TipoId = p.TipoId
 										INNER JOIN pesquisas_status st ON st.StatusId = p.StatusId
@@ -454,7 +454,7 @@ class Pesquisas
         if (!$usr->isinrole('Admin')) $filter->add('p.PesquisadorId', '=', $usr->userid);
 		  		  		
 		  //Rowcount
-			$sql->command = "SELECT COUNT(*) AS RowCount 
+			$sql->command = "SELECT COUNT(*) AS `RowCount` 
 								FROM pesquisas p 
 								LEFT JOIN users u on u.UserId = p.PesquisadorId 
 								$filter->expression";		
@@ -467,10 +467,10 @@ class Pesquisas
 			}
 				
 		  //List SELECT		
-        $sql->command = "SELECT p.PesquisaId, p.Titulo, p.Publico, p.Finalidade, md.nome as TipoQuestionario, pacote.nome as Pacote,
-													p.QtdeQuest AS Total, u.Nome as Pesquisador, p.StatusId, st.Status, p.TipoId,
-													(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 3) AS Concluidos,
-													(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 2) AS EmAndamento
+        $sql->command = "SELECT p.PesquisaId, p.Titulo, p.Publico, p.Finalidade, md.nome as `TipoQuestionario`, pacote.nome as `Pacote`,
+													p.QtdeQuest AS `Total`, u.Nome as `Pesquisador`, p.StatusId, st.Status, p.TipoId,
+													(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 3) AS `Concluidos`,
+													(SELECT Qtde FROM questionarioscountbystatusid WHERE PesquisaId = p.PesquisaId AND StatusId = 2) AS `EmAndamento`
 											FROM pesquisas p
 											INNER JOIN pesquisas_status st ON p.StatusId = st.StatusId
                                  LEFT JOIN pacotes pacote ON p.PacoteId = pacote.PacoteId
@@ -720,7 +720,7 @@ class Pesquisas
     	$qtde = 0;
     	
     	//Qtde do tipo de pesquisa 1
-    	$sql->command = "SELECT COUNT(*) as Qtde FROM questionarios WHERE PesquisaId = $pesquisaid";
+    	$sql->command = "SELECT COUNT(*) as `Qtde` FROM questionarios WHERE PesquisaId = $pesquisaid";
     	
 		 if ($sql->execute()) {
 	 		$r = $sql->fetch();
@@ -731,7 +731,7 @@ class Pesquisas
     	}
     	
     	//qtde do tipo de pesquisa 2
-    	$sql->command = "SELECT COUNT(*) as Qtde FROM pesquisas_questionariosaglutinados WHERE PesquisaId = $pesquisaid";
+    	$sql->command = "SELECT COUNT(*) as `Qtde` FROM pesquisas_questionariosaglutinados WHERE PesquisaId = $pesquisaid";
     	
 		 if ($sql->execute()) {
 	 		$r = $sql->fetch();
@@ -814,7 +814,7 @@ class Pesquisas
     	foreach ($produtos as $produto) {
             if (($produto->id != PRODUTO_TABELA_CATEGORIA) && ($produto->id != PRODUTO_TABELA_INDICE)) {
             
-    		$sql->command = "SELECT UserId, PacoteId, ProdutoId, PorPacote, SUM(Qtde) as Saldo
+    		$sql->command = "SELECT UserId, PacoteId, ProdutoId, PorPacote, SUM(Qtde) as `Saldo`
 								FROM view_extrato_creditos
 								WHERE UserId = $userId AND PacoteId = $pacoteId AND ProdutoId = $produto->id
 								group by UserId, PacoteId, ProdutoId";
@@ -859,7 +859,7 @@ class Pesquisas
     function hasQuest($pesquisaId, $questId) {
     	$sql = new SqlHelper();
     	
-    	$sql->command = "select ifnull(q.QuestionarioId, pqa.QuestionarioId) AS QuestionarioId
+    	$sql->command = "select ifnull(q.QuestionarioId, pqa.QuestionarioId) AS `QuestionarioId`
 								from pesquisas p
 								left join questionarios q ON q.PesquisaId = p.PesquisaId
 								left join pesquisas_questionariosaglutinados pqa ON pqa.PesquisaId = p.PesquisaId

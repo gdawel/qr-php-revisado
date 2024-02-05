@@ -52,22 +52,22 @@ class ModeloQuestionario {
 	 */
 	function getCountPopulacaoBase() {
 		$sql = new SqlHelper();
-		$sql->command = "SELECT COUNT(*) as Qtde, qry.FatorId, qry.Fator, qry.ValorDescricao
+		$sql->command = "SELECT COUNT(*) as `Qtde`, qry.FatorId, qry.Fator, qry.ValorDescricao
 								FROM (
-								                      Select mdf.FatorId, f.Nome as Fator, f.Sigla,
+								                      Select mdf.FatorId, f.Nome as `Fator`, f.Sigla,
 																							(SELECT vr.Classificacao FROM modelosquestionarios_valoresreferencia vr
 																							 WHERE vr.ModeloQuestionarioId = 2 AND vr.FatorId = mdf.FatorId
-																										 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS Classificacao,
+																										 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `Classificacao`,
 																						 	(SELECT vr.Descricao FROM modelosquestionarios_valoresreferencia vr
 																							 WHERE vr.ModeloQuestionarioId = 2 AND vr.FatorId = mdf.FatorId
-																										 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS ValorDescricao
+																										 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `ValorDescricao`
 																			FROM modelosquestionarios_fatores mdf
 																			left join fatores f on f.FatorId = mdf.FatorId
 																			left join questionarios_fatores qf on (mdf.FatorId = qf.FatorId)
 								                      left join questionarios quest on quest.questionarioid = qf.questionarioid
 																			where mdf.ModeloQuestionarioId = $this->id
 								                            and quest.StatusId = 3
-								      ) AS qry
+								      ) AS `qry`
         						group by FatorId, Fator, ValorDescricao
 								order by Fator";
 		$sql->execute();
@@ -152,7 +152,7 @@ class Reports {
     		}
             //get sections
             if ($lst) {
-                $sql->command = "SELECT rs.*, md.Nome AS ModeloQuestionario 
+                $sql->command = "SELECT rs.*, md.Nome AS `ModeloQuestionario` 
                                 FROM modelosquestionarios_reportsections rs
                                 JOIN reports r ON rs.ReportId = r.ReportId
                                 JOIN modelosquestionarios md on rs.ModeloQuestionarioId = md.ModeloQuestionarioId
@@ -230,7 +230,7 @@ class ModelosQuestionarios {
         if (!$filter) $filter = new Filter();
         
         $sql = new SqlHelper();
-        $sql->command = "SELECT mq.*, mqt.Nome as TipoNome 
+        $sql->command = "SELECT mq.*, mqt.Nome as `TipoNome` 
                         FROM modelosquestionarios mq
                         LEFT JOIN pacotes_tipos mqt ON mq.TipoId = mqt.PacoteTipoId
                         $filter->expression";
@@ -255,7 +255,7 @@ class ModelosQuestionarios {
 	function item($id) {
 		$sql = new SqlHelper();
 				
-		$sql->command = "SELECT mq.*, mqt.Nome as TipoNome 
+		$sql->command = "SELECT mq.*, mqt.Nome as `TipoNome` 
 											FROM modelosquestionarios mq 
 											INNER JOIN pacotes_tipos mqt ON mq.TipoId = mqt.PacoteTipoId
 											WHERE mq.ModeloQuestionarioId = $id";
@@ -287,7 +287,7 @@ class ModelosQuestionarios {
 												(SELECT group_concat(' ',a.texto, ' (', a.valor, ')') FROM modelosquestionarios_gruposalternativas m 
 												 INNER JOIN modelosquestionarios_alternativas a ON m.Alternativaid=a.AlternativaId
 												 WHERE m.GrupoAlternativasId = p.GrupoAlternativasId
-												 ORDER BY m.Posicao) AS Alternativas
+												 ORDER BY m.Posicao) AS `Alternativas`
 												FROM modelosquestionarios_perguntas p
 												WHERE p.ModeloQuestionarioId = $id
 												ORDER BY p.Posicao";
@@ -400,7 +400,7 @@ class ModelosQuestionarios {
 	
     function getValorReferencia($id) {
         $sql = new SqlHelper();
-		$sql->command = "SELECT vr.*, m.Nome AS ModeloQuestionario, f.Nome as Fator
+		$sql->command = "SELECT vr.*, m.Nome AS `ModeloQuestionario`, f.Nome as `Fator`
                          FROM modelosquestionarios_valoresreferencia vr
                          INNER JOIN modelosquestionarios m ON vr.ModeloQuestionarioId = m.ModeloQuestionarioId
                          INNER JOIN fatores f ON f.FatorId = vr.FatorId

@@ -122,7 +122,7 @@ class Questionario
                                 / (SELECT COUNT(*) FROM modelosquestionarios_perguntas
                                      WHERE ModeloQuestionarioId = (SELECT pacotes.ModeloQuestionarioId FROM pacotes, pesquisas, questionarios
                                                                                                  WHERE pacotes.pacoteid = pesquisas.pacoteid and
-                                                                                                 pesquisas.PesquisaId = questionarios.PesquisaId and questionarios.QuestionarioId = $this->id)) * 100) AS Andamento";
+                                                                                                 pesquisas.PesquisaId = questionarios.PesquisaId and questionarios.QuestionarioId = $this->id)) * 100) AS `Andamento`";
         $sql->execute();
         if ($r = $sql->fetch()) {
             $this->andamento = intval($r['Andamento']);
@@ -643,17 +643,17 @@ class Questionarios
 														ifnull(`duracao2`.`Duracao`, '') AS `Duracao2`,
 														SituacaoGrave2Comentario,
 														(case `q`.`Idioma` when 1 then 'Sim' else 'Não' end) AS `Idioma`,
-														q.Idioma AS IdiomaId,
+														q.Idioma AS `IdiomaId`,
 														`st`.`Status` AS `Status`,
 														pac.ModeloQuestionarioId, p.PesquisaId, 
-														group_concat(pes.Pessoa) as PessoasDificuldade,
-														q.PessoasDificuldade AS PessoasDificuldadeId,
+														group_concat(pes.Pessoa) as `PessoasDificuldade`,
+														q.PessoasDificuldade AS `PessoasDificuldadeId`,
 														q.PessoaDificuldadeOutro, 
 														q.SexoId, q.IdadeId, q.EscolaridadeId, q.EstadoCivilId, q.ReligiaoId, 
 														q.SituacaoGraveDuracaoId, q.SituacaoGraveQuandoId,
 														q.SituacaoGrave2DuracaoId, q.SituacaoGrave2QuandoId,
 														q.StatusId,
-														`ufs`.Id as UFId, `ufs_nasc`.Id as UFNascimentoId
+														`ufs`.Id as `UFId`, `ufs_nasc`.Id as `UFNascimentoId`
 												from `questionarios` `q` 
 												join `pesquisas` `p` on `p`.`PesquisaId` = `q`.`PesquisaId`
             								join pacotes pac on p.pacoteid = pac.pacoteid                                                  
@@ -714,29 +714,29 @@ class Questionarios
         
 			
         //Fatores
-        $sql->command = "Select mdf.FatorId, f.Nome as Fator, f.Sigla, mdf.Descricao AS DescricaoFator, qf.Valor, 
+        $sql->command = "Select mdf.FatorId, f.Nome as `Fator`, f.Sigla, mdf.Descricao AS `DescricaoFator`, qf.Valor, 
 		  													mdf.DescricaoFracaResilienciaPCP, mdf.DescricaoFracaResilienciaPCI,
 															(SELECT vr.Classificacao FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS Classificacao,
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `Classificacao`,
 															(SELECT vr.ClassificacaoDetalhada FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS ClassificacaoDetalhada,
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `ClassificacaoDetalhada`,
 															(SELECT vr.Devolutiva FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS Devolutiva,
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `Devolutiva`,
 															(SELECT vr.DevolutivaDetalhamento FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS DevolutivaDetalhamento,
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS 'DevolutivaDetalhamento',
 														 	(SELECT vr.Descricao FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS ValorDescricao,
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `ValorDescricao`,
 															(SELECT vr.LimiteInferior FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId 
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS ValorRefMin,
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `ValorRefMin`,
  															(SELECT vr.LimiteSuperior FROM modelosquestionarios_valoresreferencia vr
 															 WHERE vr.ModeloQuestionarioId = $quest->modeloquestionarioid AND vr.FatorId = mdf.FatorId 
-																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS ValorRefMax
+																		 AND vr.LimiteSuperior >= qf.Valor AND vr.LimiteInferior < qf.Valor) AS `ValorRefMax`
 											FROM modelosquestionarios_fatores mdf
 											left join fatores f on f.FatorId = mdf.FatorId
 											left join questionarios_fatores qf on (mdf.FatorId = qf.FatorId and qf.questionarioid = $quest->id)
