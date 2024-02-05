@@ -239,6 +239,18 @@ class PDF extends FPDFWithHtmlTable
         $this->SetFont('Verdana', '', 10);
         $this->SetTextColor(0);
         $this->Cell(85, 9, mb_convert_encoding($data['Pesquisa'], 'ISO-8859-1','UTF-8'), 0, 1);
+
+        $this->Ln(6);
+
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 8);
+        $this->SetTextColor(99);
+        $this->Cell(85, 0, mb_convert_encoding('QUESTIONÁRIO CONCLUÍDO EM:', 'ISO-8859-1','UTF-8'), 0, 1);
+
+        $this->Cell($l);
+        $this->SetFont('Verdana', '', 10);
+        $this->SetTextColor(0);
+        $this->Cell(85, 9, mb_convert_encoding(date('d/m/Y', strtotime($data['ConcluidoEm'])), 'ISO-8859-1','UTF-8'), 0, 1);
     }
 
     function ResultadoFatorTable($resultado)

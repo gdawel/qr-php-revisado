@@ -36,10 +36,11 @@ class Questionario
                          INNER JOIN modelosquestionarios m ON pacote.ModeloQuestionarioId = m.ModeloQuestionarioId
                          WHERE q.QuestionarioId = $this->id";
         $sql->execute();
+		
         if ($r = $sql->fetch()) {
             $this->isagrupado = $r['IsAgrupado'];
         }
-
+		var_dump($r);
         return true;
     }
     

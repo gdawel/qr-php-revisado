@@ -6,6 +6,7 @@ include_once('Mail.class');
 
 class Publicacao {
 	var $id, $titulo, $autor, $resumo, $coautores, $email, $instituicao, $filename;
+	var $ispublicado;
 	var $tipo, $tipoid, $url, $autoriza, $publicado, $datapublicacao, $createdby, $createdbyname;
 }
 

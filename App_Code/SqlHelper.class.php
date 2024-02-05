@@ -80,10 +80,10 @@ class SqlHelper {
 			
 			case AMBIENTE_PRODUCAO:
                 
-				$this->db_server='mysql06.georgebarbosa.com.br';
-				$this->db_name='georgebarbosa5';
-				$this->db_user='georgebarbosa5';
-				$this->db_pass='EdurapaX';			
+				$this->db_server='localhost';
+				$this->db_name='u265930598_georgebarbosa5';
+				$this->db_user='u265930598_georgebarbosa5';
+				$this->db_pass='EdurapaX4';			
 				break;
 			
 			default:
