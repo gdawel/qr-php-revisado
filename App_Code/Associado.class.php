@@ -28,7 +28,7 @@ class Associados {
 		if (!$filter) $filter = new Filter();
 		
 		//Rowcount
-		$sql->command = "SELECT Count(*) AS Rows FROM users u
+		$sql->command = "SELECT Count(*) AS 'Rows' FROM users u
 											INNER JOIN usersinroles r on r.userid = u.userid AND r.rolename='Associado'
 											$filter->expression";		
 		if ($sql->execute()) {
@@ -174,7 +174,7 @@ class Associados {
 	function getDesativadosCount() {
 		$sql = new SqlHelper();
 		
-		$sql->command = "SELECT COUNT(*) as qtde 
+		$sql->command = "SELECT COUNT(*) as 'qtde' 
 											FROM users u INNER JOIN usersinroles r ON u.userid = r.userid AND r.Rolename = 'Associado'
 											WHERE u.Ativo = 0";
 		
@@ -189,7 +189,7 @@ class Associados {
 	function NewItemsCountByPeriod($interval = 15) {
 		$sql = new SqlHelper();
 		
-		$sql->command = "SELECT COUNT(*) as qtde 
+		$sql->command = "SELECT COUNT(*) as 'qtde' 
 											FROM users u INNER JOIN usersinroles r ON u.userid = r.userid AND r.Rolename = 'Associado'
 											WHERE DATEDIFF(now(), u.CreatedDate) <= $interval";
 		

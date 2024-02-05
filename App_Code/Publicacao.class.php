@@ -139,7 +139,7 @@ class Publicacoes {
 		if (!$filter) $filter = new Filter();
 		
 		//Rowcount
-		$sql->command = "SELECT Count(*) AS Rows FROM publicacoes p
+		$sql->command = "SELECT Count(*) AS 'Rows' FROM publicacoes p
 											$filter->expression";		
 		$sql->execute();
 		if ($r = $sql->fetch()) $totalrows = $r['Rows'];

@@ -174,7 +174,7 @@ class Cursos {
 		}
 		
 		//Rowcount
-		$sql->command = "SELECT Count(*) AS Rows FROM cursos c
+		$sql->command = "SELECT Count(*) AS 'Rows' FROM cursos c
 											$filter->expression";		
 
 		if ($sql->execute()) {
@@ -420,7 +420,7 @@ class Cupons {
         $filter->add('c.StatusId', 'IN', '(1,2,3,4,5)', "%s"); //somente inscricoes ativas
         
         //Select
-		$sql->command = "SELECT COUNT(*) AS Qtde 
+		$sql->command = "SELECT COUNT(*) AS 'Qtde' 
                         FROM cursos_inscricoes c
 						$filter->expression";
                         		

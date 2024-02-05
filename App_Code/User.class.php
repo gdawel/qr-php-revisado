@@ -53,7 +53,7 @@ class Users {
 		if (!$filter) $filter = new Filter();
 		
 		//Rowcount
-		$sql->command = "SELECT Count(*) AS Rows FROM users u
+		$sql->command = "SELECT Count(*) AS 'Rows' FROM users u
 											$filter->expression";		
 		if ($sql->execute()) {
 			if ($r = $sql->fetch()) $totalrows = $r['Rows'];
