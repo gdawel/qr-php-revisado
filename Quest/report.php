@@ -479,8 +479,8 @@ $pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
 $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
 
-//Set logo
-$pdf->setClienteLogoFilename($pesquisa->id);
+//Set logo - retirado logo cliente - Dawel 05/02/2024
+//$pdf->setClienteLogoFilename($pesquisa->id);
 $pesquisa->modeloquestionario = $modelo;
 
 //Capa
