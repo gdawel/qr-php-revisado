@@ -60,14 +60,14 @@ class SqlHelper {
 		
 		//$this->environment = AMBIENTE_DESENVOLVIMENTO;
 		//$this->environment = AMBIENTE_HOMOLOGACAO;
-        $this->environment = AMBIENTE_PRODUCAO;
+        $this->environment = AMBIENTE_DESENVOLVIMENTO;
 		
 		switch ($this->environment) {
 			case  AMBIENTE_DESENVOLVIMENTO:
 				$this->db_server='localhost';
 				$this->db_user='root';
 				$this->db_pass='';		
-				$this->db_name='sobrare-2023';			
+				$this->db_name='georgebarbosa5';			
 				break;
 			
 			case AMBIENTE_HOMOLOGACAO:

@@ -480,7 +480,7 @@ $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
 
 //Set logo
-$pdf->setClienteLogoFilename($pesquisa->id);
+//$pdf->setClienteLogoFilename($pesquisa->id);
 $pesquisa->modeloquestionario = $modelo;
 
 //Capa
