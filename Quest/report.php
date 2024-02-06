@@ -29,8 +29,8 @@ class PDF extends FPDFWithHtmlTable
         //Logo
         $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Logo cliente
-        if (file_exists($this->clientelogofilename)) //Identificacao
-	$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+        //if (file_exists($this->clientelogofilename)) //Identificacao
+	    //    $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 				
         $this->Ln(36);
         
@@ -480,7 +480,7 @@ $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
 
 //Set logo
-//$pdf->setClienteLogoFilename($pesquisa->id);
+$pdf->setClienteLogoFilename($pesquisa->id);
 $pesquisa->modeloquestionario = $modelo;
 
 //Capa
