@@ -1,6 +1,6 @@
 <?php
 ob_start();
-$pageTitle = 'SOBRARE - Sociedade Brasileira de Resiliência | Quest_Resiliência';
+$pageTitle = 'SOBRARE - Sociedade Brasileira de Resiliência | QUEST_Resiliência';
 include_once '../Controls/events.ctrl.php';
 include_once '../Controls/list.ctrl.php';
 include_once '../App_Code/User.class.php';
@@ -544,7 +544,7 @@ function DadosPreliminaresUpdate() {
 function Finalizar() {
 	echo "<div class='finalizar'>
             <h1 class='Center'>Obrigado!</h1>
-            <h2 class='Center'>Você completou o Quest_Resiliência</h2>
+            <h2 class='Center'>Você completou o QUEST_Resiliência</h2>
 
             <br><p class='Center'>Agora, aguarde o contato do seu gestor para obter os resultados.</p>
           </div>
