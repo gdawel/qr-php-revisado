@@ -1,7 +1,7 @@
 <?php
 include_once 'User.class.php';
-include_once 'Cart.class';
-include_once 'Curso.class';
+include_once 'Cart.class.php';
+include_once 'Curso.class.php';
 
 define('INSCRICAO_TIPO_FISICA', 1);
 define('INSCRICAO_TIPO_ASSOCIADO', 2);

@@ -1,8 +1,8 @@
 <?php
-include_once('SqlHelper.class');
-include_once('FileHandler.class');
-include_once('Filter.class');
-include_once('Mail.class');
+include_once('SqlHelper.class.php');
+include_once('FileHandler.class.php');
+include_once('Filter.class.php');
+include_once('Mail.class.php');
 
 class Publicacao {
 	var $id, $titulo, $autor, $resumo, $coautores, $email, $instituicao, $filename;

@@ -2,5 +2,5 @@
 include_once 'App_Code/User.class.php';
 
 Users::Logout();
-header("Location: /Quest/index.php");
+header("Location: https://www.sobrare.com.br");
 ?>

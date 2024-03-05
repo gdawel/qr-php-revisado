@@ -84,7 +84,7 @@ function Router() {
 					<h2>Não possui acesso?</h2>";
 					
 					if ($form_type == '1')
-						echo "<p>Clique <a href='../contato.php'>aqui</a> e solicite mais informações de como utilizar uma pesquisa com o QUEST_Resiliência.</p>";
+						echo "<p>Clique <a href='https://sobrare.com.br/#support'>aqui</a> e solicite mais informações de como utilizar uma pesquisa com o QUEST_Resiliência.</p>";
 					else
 						echo "<p>Clique <a href='../associar.php'>aqui</a> e sabia como se associar a SOBRARE.</p>";
 	echo "				

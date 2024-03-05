@@ -1,7 +1,7 @@
 <?php
-include_once 'User.class';
-include_once 'Publicacao.class';
-include_once 'Mail.class';
+include_once 'User.class.php';
+include_once 'Publicacao.class.php';
+include_once 'Mail.class.php';
 
 class Associados {
 	var $error;

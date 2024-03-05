@@ -67,6 +67,7 @@ function RenderDefault() {
 		
 	$page = getIntQueryString('page', 1, true);
 	$pagesize = 10;
+	$totalrows = 0;
 	$lst = $cursos->Items($page, $pagesize, null, $totalrows, $filter);			
 	
 	if ($totalrows) $countmsg = "($totalrows itens encontrados)"; else $countmsg = '';

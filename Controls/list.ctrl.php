@@ -1,5 +1,5 @@
 <?php
-include_once dirname(__FILE__)."/../App_Code/SqlHelper.class";
+include_once dirname(__FILE__)."/../App_Code/SqlHelper.class.php";
 
 class ListItemPicker {
 	

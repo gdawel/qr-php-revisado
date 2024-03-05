@@ -10,7 +10,7 @@ define('CURSOS_TIPO_FORMACAO', 3);
 
 class Curso {
 	var $id, $nome, $endereco, $local, $datainicio, $datatermino, $horario, $descricao, $inscricoesabertas,
-        $tipoid, $tipo,
+        $tipoid, $tipo, $termino,
 		$valor1, $datalimite1, $valor2, $datalimite2, /*Data Limite se refere ? inscricao*/ 
         $modulos, $inscricaotipoid_adicional, /*tipo de inscricao adicional, para estudantes, por exemplo*/
 		$descontoassociado, $descontogrupo, $grupominimo, $descontomodulos, $modulosminimo,
@@ -116,7 +116,7 @@ class Cupom {
 }
 
 class Modulo {
-	var $id, $nome, $cursoid, $curso, $datainicio, $datatermino, $horario, $descricao,
+	var $id, $nome, $cursoid, $curso, $datainicio, $datatermino, $horainicio, $descricao,
 		$valor1, $datalimite1, $valor2, $datalimite2, /*Data Limite se refere ? inscricao*/ 
         $opcional; 
 	
@@ -178,6 +178,7 @@ class Cursos {
 											$filter->expression";		
 
 		if ($sql->execute()) {
+			$totalrows = 0; //Dawel 04/03/2024
 			if ($r = $sql->fetch()) $totalrows = $r['Rows'];
 			if ($start > $totalrows) {$start = 0; $pageindex = 1;}
 		} else {
@@ -221,6 +222,7 @@ class Cursos {
 			}
             
             //carrega os modulos de cada curso
+			
             $sql->command = "SELECT m.* FROM cursos_modulos m
                              WHERE m.CursoId IN (SELECT c.CursoId FROM cursos c $filter->expression)";
             if ($sql->execute()) {
@@ -232,7 +234,7 @@ class Cursos {
                     $m->descricao = $r['Descricao'];
                     $m->datainicio = $r['DataInicio'];
     				$m->datatermino = $r['DataTermino'];
-    				$m->horainicio = $r['HoraInicio'];
+    				$m->horainicio = $r['HoraInicio']; 
     				$m->valor1 = $r['Valor1'];
     				$m->datalimite1 = $r['DataLimite1'];
     				$m->valor2 = $r['Valor2'];
@@ -240,8 +242,12 @@ class Cursos {
                     $m->opcional = $r['Opcional'];
                     
                     //associa o modulo ao curso
+					echo "<br>Variáveis : <br> m->id: ". $m->id;
+					echo "<br> m="; print_r($m);
                     $c = $lst[$m->cursoid];
-                    $c->modulos[$m->id] = $m;
+                    if (isset($c->modulos[$m->id])) {
+						$c->modulos[$m->id] = $m;
+					};
                 }
             }
             

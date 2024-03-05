@@ -53,7 +53,7 @@ class Filter {
 		} else {			
 			$i = 0;
 			if ($insertwhere) $e = 'WHERE '; else $e = '';
-			//$sql = new SqlHelper();
+				//$sql = new SqlHelper();
 			
 			foreach ($this->fields as $f) {
 				if ($i > 0) $e .= ' AND ';

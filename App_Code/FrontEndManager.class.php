@@ -1,6 +1,6 @@
 <?php
-include_once 'SqlHelper.class';
-include_once 'Filter.class';
+include_once 'SqlHelper.class.php';
+include_once 'Filter.class.php';
 
 class ContentItem {
 	var $id, $tipoid, $tipo, $texto, $title, $subtitle, $url, $urllabel, $index;

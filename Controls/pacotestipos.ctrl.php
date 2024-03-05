@@ -1,6 +1,6 @@
 <?php
-include_once dirname(__file__) . "/../App_Code/SqlHelper.class";
-include_once dirname(__file__) . "/../App_Code/Produto.class";
+include_once dirname(__file__) . "/../App_Code/SqlHelper.class.php";
+include_once dirname(__file__) . "/../App_Code/Produto.class.php";
 
 class PacotesTipos
 {
@@ -41,7 +41,7 @@ class Servicos {
     public static function RenderSubMenu() {
         $manager = new FrontEndManager();
         $lst = $manager->getItemsByTipoId(CONTENT_SERVICOS_DESTAQUE);
-        echo "<h2>Serviços</h2>";
+        echo "<h2>Serviï¿½os</h2>";
 
                 if ($lst) {
                     echo "<ul class='servicos_list'>";

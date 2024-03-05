@@ -1,5 +1,5 @@
 <?php
-include_once 'SqlHelper.class';
+include_once 'SqlHelper.class.php';
 
 //tem referencia em Controls/list.ctrl.php
 define('PRODUTO_TABELA_INDICE', 3);
