@@ -60,7 +60,7 @@ class SqlHelper {
 		
 		//$this->environment = AMBIENTE_DESENVOLVIMENTO;
 		//$this->environment = AMBIENTE_HOMOLOGACAO;
-        $this->environment = AMBIENTE_DESENVOLVIMENTO;
+        $this->environment = AMBIENTE_HOMOLOGACAO;
 		
 		switch ($this->environment) {
 			case  AMBIENTE_DESENVOLVIMENTO:
@@ -72,10 +72,10 @@ class SqlHelper {
 			
 			case AMBIENTE_HOMOLOGACAO:
             
-				$this->db_server='mysql05.morsan.hospedagemdesites.ws';
-				$this->db_user='morsan1';
-				$this->db_pass='pass@word';
-				$this->db_name='morsan1';
+				$this->db_server='mysql06.georgebarbosa.com.br';
+				$this->db_name='georgebarbosa5';
+				$this->db_user='georgebarbosa5';
+				$this->db_pass='EdurapaX';			
 				break;
 			
 			case AMBIENTE_PRODUCAO:
