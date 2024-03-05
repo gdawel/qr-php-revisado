@@ -242,8 +242,8 @@ class Cursos {
                     $m->opcional = $r['Opcional'];
                     
                     //associa o modulo ao curso
-					echo "<br>Variáveis : <br> m->id: ". $m->id;
-					echo "<br> m="; print_r($m);
+					//echo "<br>Variáveis : <br> m->id: ". $m->id;
+					//echo "<br> m="; print_r($m);
                     $c = $lst[$m->cursoid];
                     if (isset($c->modulos[$m->id])) {
 						$c->modulos[$m->id] = $m;

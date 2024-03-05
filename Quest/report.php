@@ -463,6 +463,13 @@ if (!$pesquisa->hasQuest($quest->id)) {
 //Verifica se solicitou relatório comentado
 $show_report_comentado = ( (($usr->isinrole('Admin')) || (isset($pesquisa->produtos[2]))) 
 									&& (getQueryString('comentado', null) == '1') );
+// Dawel: 05/03/2024 - Verificar comentado para nome do arquivo PDF
+//                     Se comentado = 1 -> Relatório Profissional
+//                     Se comentado = 0 -> Relatório Básico
+if (getQueryString('comentado') == '1')  {
+        $rel_comentado = "Profissional" ;
+    } else { 
+        $rel_comentado = "Base"; };
 
 //Release objs
 $pesquisas = null;
@@ -613,7 +620,8 @@ if (isset($modelo->reportsections['99'])) {
     $pdf->ChapterNotes($modelo->reportsections['99']->texto);
 }
 
-$pdf->Output('Relatorio.pdf', 'D');
+$nome_arq_relatorio = $data['nome'] . "_" . $data['ConcluidoEm'] . " - Relatório " . $rel_comentado;
+$pdf->Output($nome_arq_relatorio, 'D');
 
 //Release chart memory
 imagedestroy($chart_dest);
