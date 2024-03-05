@@ -14,6 +14,8 @@ ob_end_clean();
 class PDF extends FPDFWithHtmlTable
 {
     private $clientelogofilename;
+    public $nome_respondente, $data_conclusao;
+
 
     function setClienteLogoFilename($pesquisaid)
     {
@@ -198,6 +200,7 @@ class PDF extends FPDFWithHtmlTable
         $this->SetFont('Verdana', 'B', 12);
         $this->SetTextColor(0);
         $this->Cell(75, 10, mb_convert_encoding($data['Nome'], 'ISO-8859-1','UTF-8'), 0, 1);
+        $nome_respondente = $data['Nome'];
 
         $this->Ln(3);
 
@@ -251,6 +254,7 @@ class PDF extends FPDFWithHtmlTable
         $this->SetFont('Verdana', '', 10);
         $this->SetTextColor(0);
         $this->Cell(85, 9, mb_convert_encoding(date('d/m/Y', strtotime($data['ConcluidoEm'])), 'ISO-8859-1','UTF-8'), 0, 1);
+        $data_conclusao = $data['ConcluidoEm'];
     }
 
     function ResultadoFatorTable($resultado)
@@ -620,7 +624,7 @@ if (isset($modelo->reportsections['99'])) {
     $pdf->ChapterNotes($modelo->reportsections['99']->texto);
 }
 
-$nome_arq_relatorio = $data['nome'] . "_" . $data['ConcluidoEm'] . " - Relatório " . $rel_comentado;
+$nome_arq_relatorio = $nome_respondente . "_" . $data_conclusao . " - Relatório " . $rel_comentado . ".pdf";
 $pdf->Output($nome_arq_relatorio, 'D');
 
 //Release chart memory
