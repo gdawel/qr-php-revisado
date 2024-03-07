@@ -83,7 +83,7 @@ class PDF extends FPDFWithHtmlTable
         //Text background
         //$this->SetFillColor(250, 216, 156);
         //Page number and text
-        $this->Cell(0, 6, utf8_decode('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0,
+        $this->Cell(0, 6, convertIsoUtf('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0,
             0, 'L', false, 'http://www.sobrare.com.br');
         $this->Cell(0, 6, $this->PageNo(), 0, 0, 'R');
 
@@ -114,7 +114,7 @@ class PDF extends FPDFWithHtmlTable
 
         //Title
         //$this->Cell(0, 6, utf8_decode($label), 0, 1, 'L', false);
-        $this->MultiCell(0, 6, utf8_decode($label), 0, 'L', false);
+        $this->MultiCell(0, 6, convertIsoUtf($label), 0, 'L', false);
 
         //Line break
         if ($addspaceafter)
@@ -131,11 +131,11 @@ class PDF extends FPDFWithHtmlTable
         foreach ($txt as $t) {
             if (substr($t, 0, 3) == '-- ') {
                 //Bullet paragraph
-                $this->MultiCellBullet(0, 5, utf8_decode(str_replace('-- ', '', $t)));
+                $this->MultiCellBullet(0, 5, convertIsoUtf(str_replace('-- ', '', $t)));
                 $this->Ln(2);
             } else {
                 //Normal paragr
-                $this->MultiCell(0, 5, utf8_decode($t));
+                $this->MultiCell(0, 5, convertIsoUtf($t));
                 //Line break and spacing
                 $this->Ln(4);
             }
@@ -150,7 +150,7 @@ class PDF extends FPDFWithHtmlTable
 
         $txt = explode("\n", $txt);
         foreach ($txt as $t) {
-            $this->MultiCell(0, 5, utf8_decode($t));
+            $this->MultiCell(0, 5, convertIsoUtf($t));
             //Line break and spacing
             $this->Ln(1);
         }
@@ -195,7 +195,7 @@ class PDF extends FPDFWithHtmlTable
         $this->Cell($l);
         $this->SetFont('Verdana', '', 10);
         $this->SetTextColor(0);
-        $this->MultiCell(110, 5, utf8_decode($pesquisa->titulo), 0);
+        $this->MultiCell(110, 5, convertIsoUtf($pesquisa->titulo), 0);
     }
 }
 
@@ -208,7 +208,7 @@ function RenderTabelaIdentificacaoDetalhada($fatorId) {
     $pdf->multiCellTableWidths = array(200, 245, 250);
     $pdf->multiCellLineHeight = 4;
     $pdf->SetFillColor(235, 235, 235);
-    $pdf->MutiCellTableRow(array('Estilo', 'Respondentes', utf8_decode('Objetivos da Capacitação')), true);
+    $pdf->MutiCellTableRow(array('Estilo', 'Respondentes', convertIsoUtf('Objetivos da Capacitação')), true);
     
     //for rows
     $pdf->multiCellTableAligns = array('L', 'C', 'L');
@@ -224,7 +224,7 @@ function RenderTabelaIdentificacaoDetalhada($fatorId) {
     foreach ($estilos as $e) {
         $vr = $pesquisa->modeloquestionario->getValorReferenciaByDescricao($fatorId, $e);
         if ($vr)
-            $pdf->MutiCellTableRow(array(utf8_decode($vr->estilo), getQuestionarioListByClassificacao($fatorId, $e),  utf8_decode($vr->objetivoscapacitacao))); 
+            $pdf->MutiCellTableRow(array(convertIsoUtf($vr->estilo), getQuestionarioListByClassificacao($fatorId, $e),  convertIsoUtf($vr->objetivoscapacitacao))); 
     }
 }
 
@@ -262,13 +262,13 @@ $pesquisaid = (getIntQueryString('aglutinadoraId', null)) ?
 $pesquisas = new Pesquisas();
 $pesquisa = $pesquisas->item($pesquisaid);
 if ((!isset($pesquisa)) || ($pesquisa->isAccessDenied())) {
-    echo utf8_decode("Acesso negado a este relatório.");
+    echo convertIsoUtf("Acesso negado a este relatório.");
     return;
 }
 
 if (!$usr->isinrole('Admin')) {//admin pode acessar relatório
     if (!$pesquisa->isProdutoAdquirido(27) && !$pesquisa->isProdutoAdquirido(28)) {
-        echo utf8_decode("Acesso negado a este relatório. Produto não adquirido.");
+        echo convertIsoUtf("Acesso negado a este relatório. Produto não adquirido.");
         return;
     }
 }

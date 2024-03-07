@@ -35,15 +35,16 @@ header("Content-type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=pesquisa_resultados_$id.xls");
 
 
-echo "<h1>$pesquisa->titulo</h1>";
-echo "<h2>Resultados dos Questionários</h2>";
+echo "<h1>" . convertIsoUtf($pesquisa->titulo) . "</h1>";
+//echo "<h2>Resultado dos Questionários</h2>";
+echo "<h2>" . convertIsoUtf('Resultados dos Questionários') . "</h2>";
 
 if ($quests) {
 	echo "<table class='List' border='1'>
 					<tr>
-						<th>Núm. do Sujeito</th>";
+						<th>" . convertIsoUtf('Núm. do Sujeito') . "</th>";
 	foreach ($quests[0]->fatores as $fator) {
-		echo "<th>$fator->nome</th>";
+		echo "<th>" . convertIsoUtf($fator->nome) . "</th>";
 	}
 	echo "</tr>";
 	

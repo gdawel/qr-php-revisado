@@ -424,6 +424,7 @@ $usr = Users::getCurrent();
 
 //Get Quest
 $quests = new Questionarios();
+
 $questid = getIntQueryString('id', 0, true);
 if (!$questid) {
     echo mb_convert_encoding("Questionário não encontrado.", 'ISO-8859-1','UTF-8');
@@ -623,7 +624,7 @@ if (isset($modelo->reportsections['99'])) {
 }
 
 
-$nome_arq_relatorio = $usr->nome . mb_convert_encoding(' - Relatório ', 'ISO-8859-1','UTF-8') . $rel_comentado . ".pdf";
+$nome_arq_relatorio = $quest->nome . mb_convert_encoding(' - Relatório ', 'ISO-8859-1','UTF-8') . $rel_comentado . ".pdf";
 $pdf->Output($nome_arq_relatorio, 'D');
 
 //Release chart memory

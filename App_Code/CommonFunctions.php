@@ -9,6 +9,12 @@ function applicationPath() {
 		return '/';
 }
 
+function convertIsoUtf($texto) {
+
+	$texto = mb_convert_encoding($texto, 'ISO-8859-1','UTF-8');
+	return $texto;
+}
+
 function isPageRefresh() {
 	$PageRefreshChecker = getPost('PageRefreshChecker', 0);
 	checkPageRefreshSessionVar();
