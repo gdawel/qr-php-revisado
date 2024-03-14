@@ -30,8 +30,8 @@ class PDF extends FPDFWithHtmlTable
         //Logo
         $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Cliente Logo
-        if (file_exists($this->clientelogofilename)) //Identificacao
-            $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+        //if (file_exists($this->clientelogofilename)) //Identificacao
+        //    $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 
         //Bottom border
         $this->SetDrawColor(99, 99, 99);
@@ -53,7 +53,7 @@ class PDF extends FPDFWithHtmlTable
         //Text background
         //$this->SetFillColor(250, 216, 156);
         //Page number and text
-        $this->Cell(0, 6, utf8_decode('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0,
+        $this->Cell(0, 6, convertIsoUtf('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0,
             0, 'L', false, 'http://www.sobrare.com.br');
         $this->Cell(0, 6, $this->PageNo(), 0, 0, 'R');
 
@@ -84,7 +84,7 @@ class PDF extends FPDFWithHtmlTable
         }
 
         //Title
-        $this->Cell(0, 6, utf8_decode($label), 0, 1, $align, false);
+        $this->Cell(0, 6, convertIsoUtf($label), 0, 1, $align, false);
 
         //Line break
         if ($addspaceafter)
@@ -101,11 +101,11 @@ class PDF extends FPDFWithHtmlTable
         foreach ($txt as $t) {
             if (substr($t, 0, 3) == '-- ') {
                 //Bullet paragraph
-                $this->MultiCellBullet(0, 5, utf8_decode(str_replace('-- ', '', $t)));
+                $this->MultiCellBullet(0, 5, convertIsoUtf(str_replace('-- ', '', $t)));
                 $this->Ln(2);
             } else {
                 //Normal paragr
-                $this->MultiCell(0, 5, utf8_decode($t));
+                $this->MultiCell(0, 5, convertIsoUtf($t));
                 //Line break and spacing
                 $this->Ln(4);
             }
@@ -120,7 +120,7 @@ class PDF extends FPDFWithHtmlTable
 
         $txt = explode("\n", $txt);
         foreach ($txt as $t) {
-            $this->MultiCell(0, 5, utf8_decode($t));
+            $this->MultiCell(0, 5, convertIsoUtf($t));
             //Line break and spacing
             $this->Ln(1);
         }
@@ -164,15 +164,15 @@ function IdentificacaoTable() {
 	$pdf->Cell(25, 2, 'PESQUISA', 0, 0);	
 	$pdf->SetFont('Verdana', 'B', 8);
 	$pdf->SetTextColor(0);
-	$pdf->Cell(75, 2, $pesquisa->id . ' - ' . utf8_decode($pesquisa->titulo), 0, 1);
+	$pdf->Cell(75, 2, $pesquisa->id . ' - ' . convertIsoUtf($pesquisa->titulo), 0, 1);
 	$pdf->Ln(3);
 	
 	$pdf->SetFont('Verdana', '', 8);
 	$pdf->SetTextColor(99);
-	$pdf->Cell(25, 2, utf8_decode('INSTITUIÇÃO'), 0, 0);	
+	$pdf->Cell(25, 2, convertIsoUtf('INSTITUIÇÃO'), 0, 0);	
 	$pdf->SetFont('Verdana', 'B', 8);
 	$pdf->SetTextColor(0);
-	$pdf->Cell(75, 2, utf8_decode($pesquisador->instituicao), 0, 1);
+	$pdf->Cell(75, 2, convertIsoUtf($pesquisador->instituicao), 0, 1);
 	$pdf->Ln(3);
 	
 	$pdf->SetFont('Verdana', '', 8);
@@ -180,7 +180,7 @@ function IdentificacaoTable() {
 	$pdf->Cell(25, 2, 'PESQUISADOR', 0, 0);	
 	$pdf->SetFont('Verdana', 'B', 8);
 	$pdf->SetTextColor(0);
-	$pdf->Cell(75, 2, utf8_decode($pesquisador->nome), 0, 1);
+	$pdf->Cell(75, 2, convertIsoUtf($pesquisador->nome), 0, 1);
 	$pdf->Ln(3);
 }
 
@@ -189,7 +189,7 @@ $pdf = new PDF('L');
 $pdf->AddFont('Verdana', 'B', '2baadfeddaf7cb6d8eb5b5d7b3dc2bfc_verdanab.php');
 $pdf->AddFont('Verdana', '', 'e1cdac2412109fd0a7bfb58b6c954d9e_verdana.php');
 $title = 'Tabela dos Índices nos Modelos de Crenças Determinantes';
-$pdf->SetTitle($title);
+$pdf->SetTitle(convertIsoUtf($title));
 $pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
 $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
@@ -201,11 +201,11 @@ $pesquisaid = getIntQueryString('id', 0, true);
 $pesquisas = new Pesquisas();
 $pesquisa = $pesquisas->item($pesquisaid);
 if ((!$pesquisa) || ($pesquisa->isAccessDenied())) {
-    echo utf8_decode("Acesso negado a este relatório.");
+    echo convertIsoUtf("Acesso negado a este relatório.");
     return;
 }
 if (!$pesquisa->isProdutoAdquirido(3)) {
-    echo utf8_decode("Acesso negado a este relatório.");
+    echo convertIsoUtf("Acesso negado a este relatório.");
     return;
 }
 
@@ -244,7 +244,7 @@ if ($quests) {
 	$table .= "</table>
 </font>
 <br /><br />";
-	$pdf->WriteHTML(utf8_decode($table));
+	$pdf->WriteHTML(convertIsoUtf($table));
 	
 } else {
 	$pdf->ChapterBody('Nenhum questionário encontrado para esta pesquisa.');
@@ -255,5 +255,6 @@ $pdf->ChapterNotes('Fonte: Sociedade Brasileira de Resiliência (SOBRARE) - CRPJ
 $pdf->ChapterNotes('Nota do Autor: "Todos os dados numéricos extraídos dessa ferramenta poderão ser usados para alimentar pesquisas, preservando o sigilo do(a) respondente."');
 
 
-$pdf->Output('Tabela_Indices.pdf', 'D');
+$pdf->Output($pesquisa->id . ' - ' . convertIsoUtf($pesquisa->titulo) . 
+                convertIsoUtf(' - Tabela_Indices_Resiliência.pdf'), 'D');
 ?>

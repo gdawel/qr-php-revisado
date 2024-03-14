@@ -2,7 +2,7 @@
 
 /**
  * 
- * RELATORIO DE SITUACOES DE VULNERABILIDADE
+ * RELATORIO DE CONDICOES FRACAS
  * 
  * */
 
@@ -12,6 +12,8 @@ require_once ('../App_Code/User.class.php');
 require_once ('../App_Code/Questionario.class.php');
 require_once ('../App_Code/Report_VulnerabilidadesFortalezas.class.php');
 require_once ('../App_Code/CommonFunctions.php');
+require_once ('../App_Code/FileHandler.class.php');
+require_once ('report_prod_6.radarchart.php');
 ob_clean();
 
 class PDF extends FPDFWithHtmlTable
@@ -36,7 +38,7 @@ class PDF extends FPDFWithHtmlTable
         $this->Ln(36);
         //Logo report
         $pacoteTipoId = $pesquisa->modeloquestionario->tipo->id;
-        $this->Image("ReportImages/report_intro_$pacoteTipoId"."_vuln.png", 45, null, 125);
+        $this->Image("ReportImages/report_intro_$pacoteTipoId"."_fraca.png", 45, null, 125);
 
 			//Report title
 		  	$this->SetFillColor(240);        
@@ -62,14 +64,13 @@ class PDF extends FPDFWithHtmlTable
         $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Cliente Logo
         if (file_exists($this->clientelogofilename)) //Identificacao
-				$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+			$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 
 			//title
 			$this->SetFont('Verdana', '', 8);
 			$this->Cell(55,4);
 			$this->Cell(0,4,convertIsoUtf($this->title),0,0);
-			
-							
+
         //Bottom border
         $this->SetDrawColor(99, 99, 99);
         $this->SetLineWidth(0.2);
@@ -124,7 +125,7 @@ class PDF extends FPDFWithHtmlTable
         }
 
         //Title
-        $this->Cell(0, 6, convertIsoUtf($label), 0, 1, $align, false);
+        $this->MultiCell(0, 6, convertIsoUtf($label), 0, $align, false);
 
         //Line break
         if ($addspaceafter)
@@ -213,7 +214,7 @@ class PDF extends FPDFWithHtmlTable
         $this->Cell($l);
         $this->SetFont('Verdana', '', 10);
         $this->SetTextColor(0);
-        $this->MultiCell(110, 5, convertIsoUtf($pesquisa->titulo), 0, 1, false);
+        $this->MultiCell(105, 5, convertIsoUtf($pesquisa->titulo), 0, 1);
     }    
 }
 
@@ -221,9 +222,8 @@ class PDF extends FPDFWithHtmlTable
 $pdf = new PDF();
 $pdf->AddFont('Verdana', 'B', '2baadfeddaf7cb6d8eb5b5d7b3dc2bfc_verdanab.php');
 $pdf->AddFont('Verdana', '', 'e1cdac2412109fd0a7bfb58b6c954d9e_verdana.php');
-$title = 'Relatório das Situações de Vulnerabilidades na Equipe';
-$pdf->title = 'Relatório das Situações de Vulnerabilidades na Equipe';
-$pdf->SetTitle($title,true);
+$title = 'Relatório das Condições de Fraca Resiliência na Equipe';
+$pdf->SetTitle($title);
 $pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
 $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
@@ -239,18 +239,19 @@ if ((!isset($pesquisa)) || ($pesquisa->isAccessDenied())) {
     return;
 }
 
-if (!$pesquisa->isProdutoAdquirido(7)) {
+if (!$pesquisa->isProdutoAdquirido(6)) {
     echo convertIsoUtf("Acesso negado a este produto.");
     return;
 }
 
-$report = new ReportGlobalSituacoesVulnerabilidades($pesquisa);
+//Generate chart
+$report = new ReportGlobalCondicaoResiliencia($pesquisa);
 
 //Capa
 $pdf->Capa($pesquisa);
 
 //Get report text sections
-$reportsections = $pesquisa->modeloquestionario->getReportSections(REPORT_SITUACOES_VULNERABILIDADE);
+$reportsections = $pesquisa->modeloquestionario->getReportSections(REPORT_CONDICOES_FRACA_RESILIENCA);
 
 //Intro
 $first_section = true;
@@ -259,60 +260,142 @@ $pdf->ChapterTitle($section->title, !$first_section, $first_section, !$first_sec
 $pdf->ChapterBody($section->texto);
 
 
-//Vulneraveis
-$first_section = false;
+//PC-P
+$pdf->AddPage();
+$first_section = true;
 $section = $reportsections[2];
 $pdf->ChapterTitle($section->title, !$first_section, $first_section, !$first_section);
 $pdf->ChapterBody($section->texto);
 
 $pdf->SetFont('Verdana', 'B', 10);
 $pdf->SetTextColor(0);
-$pdf->Cell(85, 9, convertIsoUtf('Respondentes na Situação de Vulnerabilidade Cognitiva'), 0, 1);
+$pdf->Cell(85, 9, convertIsoUtf('Tabela: Condições de Fraca Resiliência na equipe no PC - P'), 0, 10);
 
-
-$pdf->SetFont('Verdana', '', 9);
-$pdf->SetFillColor(245);        
-$pdf->SetTextColor(0);
-
-$items = $report->getDataItems();
-$count = 0;
+$items = $report->getFracaResilienciaItems('P');
 $items_count = 0;
-if ($items) {
-	foreach ($items as $q) {
-		$count++;
-		$items_count++;
-			
-		//Espaco para centralizar
-		if ($count == 1) $pdf->Cell(25, 8, ' ', 0, 0, 'C');
+//Cabecalho
+$pdf->SetFillColor(240);
+$pdf->SetTextColor(0,0,0);
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->Cell(55, 8, convertIsoUtf('MCD'), 0, 0, 'C', true);
+$pdf->Cell(15, 8, convertIsoUtf('Qtde'), 0, 0, 'C', true);
+$pdf->Cell(105, 8, convertIsoUtf('Comentários'), 0, 0, 'C', true);
+$pdf->Ln(8);
+
+foreach ($items as $fator) {	
+	$pdf->SetFillColor(245);        
+  	$pdf->SetTextColor(0);
+	$pdf->SetFont('Verdana', '', 10);
+	$pdf->Cell(55, 8, convertIsoUtf($fator->nome), 0, 0, 'L', true);
 	
-		//print respondente
-		$pdf->Cell(30, 8, convertIsoUtf($q->id), 0, 0, 'C', true);
-		$pdf->Cell(1, 8, ' ', 0, 0, 'C', false);
+	$pdf->SetFillColor(240);
+	$pdf->SetTextColor(255,0,0);
+	$pdf->SetFont('Verdana', '', 14);
+	$pdf->Cell(15, 8, convertIsoUtf($fator->qtde), 0, 0, 'C', true);	
 	
-		//nova linha
-		if ($count == 4) {
-			$pdf->Ln(10);
-			$count = 0;
-		} 
-	}
-	$pdf->Ln(10);
-	$pdf->SetFont('Verdana', 'B', 10);
-	$pdf->SetTextColor(0);
-	//$pdf->Cell(85, 4, convertIsoUtf("[N = $items_count]"), 0, 1);
-	$pdf->Cell(85, 4, convertIsoUtf("[N = $pesquisa->count_concluidos]"), 0, 1);
+	$pdf->SetFillColor(250); 
+  	$pdf->SetTextColor(99);
 	$pdf->SetFont('Verdana', '', 8);
-	$pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
-} else {
-	$pdf->SetFont('Verdana', '', 9);
-	$pdf->Cell(90, 9, convertIsoUtf('Nenhum respondente em situação de vulnerabilidade.'), 0, 1, 'L', true);	
+	if (strlen(convertIsoUtf($fator->descricaoFracaResilienciaPCI)) > 70) $line_height = 4; else $line_height = 8;
+	$pdf->MultiCell(105, $line_height, convertIsoUtf($fator->descricaoFracaResilienciaPCI), 0, 'L', true);
+
+	$pdf->Ln(1);
+	$items_count += $fator->qtde;
 }
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->SetTextColor(0);
+//$pdf->Cell(85, 4, convertIsoUtf("[N = $items_count]"), 0, 1);
+$pdf->Cell(85, 4, convertIsoUtf("[N = $pesquisa->count_concluidos]"), 0, 1);
+$pdf->SetFont('Verdana', '', 8);
+$pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
  
 
-//conclusao
+//Grafico PC-P
+$pdf->AddPage();
 $first_section = false;
 $section = $reportsections[3];
-$pdf->ChapterTitle('', !$first_section, $first_section, !$first_section);
 $pdf->ChapterBody($section->texto);
+
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->SetTextColor(0);
+$pdf->Cell(85, 9, convertIsoUtf('Gráfico: Categoria FRACA no estilo PC - P'), 0, 1);
+
+$imgWidth = 172;
+$filename = generateChart($items, 'P');
+$pdf->Image("../_tmp/$filename", $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $imgWidth )/2 + 2, null, $imgWidth );
+
+$pdf->SetTextColor(0);
+$pdf->SetFont('Verdana', '', 8);
+$pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
+
+
+
+//PC-I
+$pdf->AddPage();
+$first_section = true;
+$section = $reportsections[4];
+$pdf->ChapterTitle($section->title, !$first_section, $first_section, !$first_section);
+$pdf->ChapterBody($section->texto);
+
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->SetTextColor(0);
+$pdf->Cell(85, 9, convertIsoUtf('Tabela: Condições de Fraca Resiliência na equipe no PC - I'), 0, 1);
+
+
+$items = $report->getFracaResilienciaItems('I');
+$items_count = 0;
+//Cabecalho
+$pdf->SetFillColor(240);
+$pdf->SetTextColor(0,0,0);
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->Cell(55, 8, convertIsoUtf('MCD'), 0, 0, 'C', true);
+$pdf->Cell(15, 8, convertIsoUtf('Qtde'), 0, 0, 'C', true);
+$pdf->Cell(105, 8, convertIsoUtf('Comentários'), 0, 0, 'C', true);
+$pdf->Ln(8);
+foreach ($items as $fator) {	
+	$pdf->SetFillColor(245);        
+  	$pdf->SetTextColor(0);
+	$pdf->SetFont('Verdana', '', 10);
+	$pdf->Cell(55, 8, convertIsoUtf($fator->nome), 0, 0, 'L', true);
+	
+	$pdf->SetFillColor(240);
+	$pdf->SetTextColor(255,0,0);
+	$pdf->SetFont('Verdana', '', 14);
+	$pdf->Cell(15, 8, convertIsoUtf($fator->qtde), 0, 0, 'C', true);
+	
+	$pdf->SetFillColor(250); 
+  	$pdf->SetTextColor(99);
+	$pdf->SetFont('Verdana', '', 8);
+	if (strlen(convertIsoUtf($fator->descricaoFracaResilienciaPCP)) > 70) $line_height = 4; else $line_height = 8;
+	$pdf->MultiCell(105, $line_height, convertIsoUtf($fator->descricaoFracaResilienciaPCP), 0, 'L', true);
+
+	$pdf->Ln(1);
+	$items_count += $fator->qtde;
+}
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->SetTextColor(0);
+//$pdf->Cell(85, 4, convertIsoUtf("[N = $items_count]"), 0, 1);
+$pdf->Cell(85, 4, convertIsoUtf("[N = $pesquisa->count_concluidos]"), 0, 1);
+$pdf->SetFont('Verdana', '', 8);
+$pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
+
+
+//Grafico PC-I
+$pdf->AddPage();
+$first_section = true;
+$section = $reportsections[5];
+$pdf->ChapterBody($section->texto);
+
+$pdf->SetFont('Verdana', 'B', 10);
+$pdf->SetTextColor(0);
+$pdf->Cell(85, 9, convertIsoUtf('Gráfico: Categoria FRACA no estilo PC - I'), 0, 1);
+
+$filename = generateChart($items, 'I');
+$pdf->Image("../_tmp/$filename", $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $imgWidth )/2 + 2, null, $imgWidth );
+
+$pdf->SetTextColor(0);
+$pdf->SetFont('Verdana', '', 8);
+$pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
 
 
 
@@ -324,8 +407,5 @@ if (isset($reportsections['99'])) {
     $pdf->ChapterNotes($reportsections['99']->texto);
 }
 
-$fileName = $pesquisa->id . '_' . convertIsoUtf($pesquisa->titulo) . 
-                convertIsoUtf(' - Relatório_Situações_Vulnerabilidade.pdf');
-$pdf->Output($fileName, 'D');
-//$pdf->Output('Relatorio_Situacoes.pdf', 'D');
+$pdf->Output('Relatorio_Condicoes.pdf', 'D');
 ?>

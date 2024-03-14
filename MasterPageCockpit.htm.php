@@ -40,7 +40,7 @@ $version = 56;
 			</div>
 			
 			<div id="commands">
-				<a href="config.php" title='Opções e configurações do Cockpit'>Opções</a>
+				<a href="config.php" title='Opções e configurações do Cockpit'>Mudar Senha</a>
 				&nbsp;
 				<a href="../logout.php" title='Logout'>Sair</a>
 			</div>
