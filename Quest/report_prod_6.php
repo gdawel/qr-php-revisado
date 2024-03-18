@@ -56,6 +56,15 @@ class PDF extends FPDFWithHtmlTable
 	  		$this->SetFont('Verdana', '', 12);
 			$this->Cell(25);
 			$this->Cell(125, 10, convertIsoUtf($this->title), 0, 0, 'C', true);	
+
+            // GD: 15/03/2024 - Teste de Cabeçalho para eliminar o logo
+		  	// $this->SetFillColor(280);   
+            // $this->Ln(24);     
+		  	// $this->SetTextColor(0,0,102);
+	  		// $this->SetFont('Verdana-Bold', 'B', 18);
+			// $this->Cell(25);
+			// $this->Cell(125, 10, convertIsoUtf('Relatório de Condições em Fraca Resiliência na Equipe'), 0, 0, 'C', true);	
+            // GD: 15/03/2024 - Deixei para testar futuramente
 			
         $this->Ln(24);
         $this->TableIdentificacao($pesquisa);
@@ -428,6 +437,6 @@ if (isset($reportsections['99'])) {
 }
 
 $fileName = $pesquisa->id . '_' . convertIsoUtf($pesquisa->titulo) . 
-                convertIsoUtf(' - Relatório_Condições_em_Fraca.pdf');
+                convertIsoUtf(' - Relatório_Condições_em_Fraca_Resiliência.pdf');
 $pdf->Output($fileName, 'D');
 ?>

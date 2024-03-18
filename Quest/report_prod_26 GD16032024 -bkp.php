@@ -11,7 +11,7 @@ require_once ('../App_Code/Questionario.class.php');
 require_once ('../App_Code/Report_VulnerabilidadesFortalezas.class.php');
 require_once ('../App_Code/CommonFunctions.php');
 require_once ('../App_Code/FileHandler.class.php');
-require_once ('report_prod_26.barchart.php');
+require_once ('report_prod_26.radarchart.php');
 ob_clean();
 
 class PDF extends FPDFWithHtmlTable {
@@ -26,7 +26,7 @@ class PDF extends FPDFWithHtmlTable {
         $this->AddPage();
 
         //Logo
-        $this->Image('CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
+        $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Cliente Logo
         if (file_exists($this->clientelogofilename)) //Identificacao
             $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
@@ -34,14 +34,14 @@ class PDF extends FPDFWithHtmlTable {
         $this->Ln(36);
         //Logo report
         $pacoteTipoId = $pesquisa->modeloquestionario->tipo->id;
-        $this->Image("Quest/ReportImages/report_intro_$pacoteTipoId" . "_fraca.png", 45, null, 125);
+        $this->Image("ReportImages/report_intro_$pacoteTipoId" . "_fraca.png", 45, null, 125);
 
         //Report title
         $this->SetFillColor(240);
         $this->SetTextColor(99);
         $this->SetFont('Verdana', '', 12);
         $this->Cell(25);
-        $this->Cell(125, 10, convertIsoUtf($this->title), 0, 0, 'C', true);
+        $this->Cell(125, 10, utf8_decode($this->title), 0, 0, 'C', true);
 
         $this->Ln(24);
         $this->TableIdentificacao($pesquisa);
@@ -56,15 +56,15 @@ class PDF extends FPDFWithHtmlTable {
         global $title;
 
         //Logo
-        $this->Image('CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
+        $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Cliente Logo
-        //if (file_exists($this->clientelogofilename)) //Identificacao
-        //    $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+        if (file_exists($this->clientelogofilename)) //Identificacao
+            $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 
         //title
         $this->SetFont('Verdana', '', 8);
         $this->Cell(55, 4);
-        $this->Cell(0, 4, convertIsoUtf($this->title), 0, 0);
+        $this->Cell(0, 4, utf8_decode($this->title), 0, 0);
 
         //Bottom border
         $this->SetDrawColor(99, 99, 99);
@@ -89,7 +89,7 @@ class PDF extends FPDFWithHtmlTable {
         //Text background
         //$this->SetFillColor(250, 216, 156);
         //Page number and text
-        $this->Cell(0, 6, convertIsoUtf('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0, 0, 'L', false, 'http://www.sobrare.com.br');
+        $this->Cell(0, 6, utf8_decode('Sociedade Brasileira de Resiliência | www.sobrare.com.br'), 0, 0, 'L', false, 'http://www.sobrare.com.br');
         $this->Cell(0, 6, $this->PageNo(), 0, 0, 'R');
 
         $this->SetDrawColor(128, 128, 128);
@@ -117,7 +117,7 @@ class PDF extends FPDFWithHtmlTable {
         }
 
         //Title
-        $this->MultiCell(0, 6, convertIsoUtf($label), 0, $align, false);
+        $this->MultiCell(0, 6, utf8_decode($label), 0, $align, false);
 
         //Line break
         if ($addspaceafter)
@@ -133,11 +133,11 @@ class PDF extends FPDFWithHtmlTable {
         foreach ($txt as $t) {
             if (substr($t, 0, 3) == '-- ') {
                 //Bullet paragraph
-                $this->MultiCellBullet(0, 5, convertIsoUtf(str_replace('-- ', '', $t)));
+                $this->MultiCellBullet(0, 5, utf8_decode(str_replace('-- ', '', $t)));
                 $this->Ln(2);
             } else {
                 //Normal paragr
-                $this->MultiCell(0, 5, convertIsoUtf($t));
+                $this->MultiCell(0, 5, utf8_decode($t));
                 //Line break and spacing
                 $this->Ln(4);
             }
@@ -151,7 +151,7 @@ class PDF extends FPDFWithHtmlTable {
 
         $txt = explode("\n", $txt);
         foreach ($txt as $t) {
-            $this->MultiCell(0, 5, convertIsoUtf($t));
+            $this->MultiCell(0, 5, utf8_decode($t));
             //Line break and spacing
             $this->Ln(1);
         }
@@ -192,7 +192,7 @@ class PDF extends FPDFWithHtmlTable {
           $this->Cell($l);
           $this->SetFont('Verdana', '', 11.7);
           $this->SetTextColor(99);
-          $this->Cell(85, 0, convertIsoUtf(strtoupper($this->title)), 0, 1);
+          $this->Cell(85, 0, utf8_decode(strtoupper($this->title)), 0, 1);
           $this->Ln(12); */
 
         $this->Cell($l);
@@ -203,7 +203,7 @@ class PDF extends FPDFWithHtmlTable {
         $this->Cell($l);
         $this->SetFont('Verdana', '', 10);
         $this->SetTextColor(0);
-        $this->MultiCell(105, 5, convertIsoUtf($pesquisa->titulo), 0, 1);
+        $this->MultiCell(105, 5, utf8_decode($pesquisa->titulo), 0, 1);
     }
 
 }
@@ -212,7 +212,7 @@ function renderTabelaDetalhada($condicao, $qtde, $comentario) {
     global $pdf;
 
     //define line height according to text length
-    if (strlen(convertIsoUtf($comentario)) > 70)
+    if (strlen(utf8_decode($comentario)) > 70)
         $line_height = 5;
     else
         $line_height = 8;
@@ -220,17 +220,17 @@ function renderTabelaDetalhada($condicao, $qtde, $comentario) {
     $pdf->SetFillColor(245);
     $pdf->SetTextColor(0);
     $pdf->SetFont('Verdana', '', 10);
-    $pdf->Cell(60, 10, convertIsoUtf($condicao), 0, 0, 'L', true);
+    $pdf->Cell(60, 10, utf8_decode($condicao), 0, 0, 'L', true);
 
     $pdf->SetFillColor(240);
     $pdf->SetTextColor(255, 0, 0);
     $pdf->SetFont('Verdana', '', 14);
-    $pdf->Cell(15, 10, convertIsoUtf($qtde), 0, 0, 'C', true);
+    $pdf->Cell(15, 10, utf8_decode($qtde), 0, 0, 'C', true);
 
     $pdf->SetFillColor(250);
     $pdf->SetTextColor(99);
     $pdf->SetFont('Verdana', '', 8);
-    $pdf->MultiCell(100, $line_height, convertIsoUtf($comentario), 0, 'L', true);
+    $pdf->MultiCell(100, $line_height, utf8_decode($comentario), 0, 'L', true);
 
     $pdf->Ln(2);
 }
@@ -238,9 +238,8 @@ function renderTabelaDetalhada($condicao, $qtde, $comentario) {
 $pdf = new PDF();
 $pdf->AddFont('Verdana', 'B', '2baadfeddaf7cb6d8eb5b5d7b3dc2bfc_verdanab.php');
 $pdf->AddFont('Verdana', '', 'e1cdac2412109fd0a7bfb58b6c954d9e_verdana.php');
-$title = 'Relatório das Condições em Fortaleza na Equipe';
-$pdf->title = 'Relatório das Condições em Fortaleza na Equipe';
-$pdf->SetTitle($title, true);
+$title = utf8_decode('Relatório das Condições de Fortaleza na Equipe');
+$pdf->SetTitle($title);
 $pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
 $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
@@ -252,12 +251,12 @@ $pesquisaid = getIntQueryString('id', 0, true);
 $pesquisas = new Pesquisas();
 $pesquisa = $pesquisas->item($pesquisaid);
 if ((!isset($pesquisa)) || ($pesquisa->isAccessDenied())) {
-    echo convertIsoUtf("Acesso negado a este relatório.");
+    echo utf8_decode("Acesso negado a este relatório.");
     return;
 }
 
 if (!$pesquisa->isProdutoAdquirido(26)) {
-    echo convertIsoUtf("Acesso negado a este produto.");
+    echo utf8_decode("Acesso negado a este produto.");
     return;
 }
 
@@ -290,15 +289,15 @@ foreach ($pesquisa->modeloquestionario->fatores as $fator) {
 
     $pdf->SetFont('Verdana', 'B', 10);
     $pdf->SetTextColor(0);
-    $pdf->Cell(85, 9, convertIsoUtf('Tabela: Condições de Fortaleza na equipe'), 0, 10);
+    $pdf->Cell(85, 9, utf8_decode('Tabela: Condições de Fortaleza na equipe'), 0, 10);
 
     //Cabecalho
     $pdf->SetFillColor(240);
     $pdf->SetTextColor(0, 0, 0);
     $pdf->SetFont('Verdana', 'B', 10);
-    $pdf->Cell(60, 8, convertIsoUtf('Condição'), 0, 0, 'C', true);
-    $pdf->Cell(15, 8, convertIsoUtf('Qtde'), 0, 0, 'C', true);
-    $pdf->Cell(100, 8, convertIsoUtf('Característica da tendência no posicionamento'), 0, 0, 'C', true);
+    $pdf->Cell(60, 8, utf8_decode('Condição'), 0, 0, 'C', true);
+    $pdf->Cell(15, 8, utf8_decode('Qtde'), 0, 0, 'C', true);
+    $pdf->Cell(100, 8, utf8_decode('Característica da tendência no posicionamento'), 0, 0, 'C', true);
     $pdf->Ln(8);
 
     //table and cahrt data
@@ -313,27 +312,26 @@ foreach ($pesquisa->modeloquestionario->fatores as $fator) {
 
     $pdf->SetFont('Verdana', 'B', 10);
     $pdf->SetTextColor(0);
-    $pdf->Cell(85, 4, convertIsoUtf("[N = $pesquisa->count_concluidos]"), 0, 1);
+    $pdf->Cell(85, 4, utf8_decode("[N = $pesquisa->count_concluidos]"), 0, 1);
     $pdf->SetFont('Verdana', '', 8);
-    $pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
+    $pdf->Cell(85, 4, utf8_decode("Fonte: Base de dados da SOBRARE"), 0, 1);
 
     $pdf->Ln(8);
 
     //chart
     $pdf->SetFont('Verdana', 'B', 10);
     $pdf->SetTextColor(0);
-    $pdf->Cell(85, 9, convertIsoUtf("Gráfico: Condições de Fortaleza na equipe"), 0, 1);
+    $pdf->Cell(85, 9, utf8_decode("Gráfico: Condições de Fortaleza na equipe"), 0, 1);
 
     $imgWidth = 172;
     $filename = generateChart(
             $fator, array($countSegPCI, $countSegPCP, $countExc), array('Condição de Fortaleza - PC-I', 'Condição de Fortaleza - PC-P', 'Condição de Excelente')
     );
-    //$pdf->Image("_tmp/$filename", $pdf->lMargin + ($pdf->w - 2 * $pdf->lMargin - $imgWidth ) / 2 + 2, null, $imgWidth);
-    $pdf->Image("$filename", 22, null, $imgWidth);
+    $pdf->Image("../_tmp/$filename", $pdf->lMargin + ($pdf->w - 2 * $pdf->lMargin - $imgWidth ) / 2 + 2, null, $imgWidth);
 
     $pdf->SetTextColor(0);
     $pdf->SetFont('Verdana', '', 8);
-    $pdf->Cell(85, 4, convertIsoUtf("Fonte: Base de dados da SOBRARE"), 0, 1);
+    $pdf->Cell(85, 4, utf8_decode("Fonte: Base de dados da SOBRARE"), 0, 1);
 }
 
 
@@ -345,9 +343,5 @@ if (isset($reportsections['99'])) {
     $pdf->ChapterNotes($reportsections['99']->texto);
 }
 
-$fileName = $pesquisa->id . '_' . convertIsoUtf($pesquisa->titulo) . 
-                convertIsoUtf(' - Relatório_Condições_em_Fortaleza.pdf');
-$pdf->Output($fileName, 'D');
-
-//$pdf->Output('Relatorio_Condicoes.pdf', 'D');
+$pdf->Output('Relatorio_Condicoes.pdf', 'D');
 ?>

@@ -31,8 +31,8 @@ class PDF extends FPDFWithHtmlTable
         //Logo
         $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Logo cliente
-        if (file_exists($this->clientelogofilename)) //Identificacao
-				$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+        //if (file_exists($this->clientelogofilename)) //Identificacao
+		//		$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 				
         $this->Ln(36);
         
@@ -56,8 +56,8 @@ class PDF extends FPDFWithHtmlTable
         //Logo
         $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Cliente Logo
-        if (file_exists($this->clientelogofilename)) //Identificacao
-			$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+        //if (file_exists($this->clientelogofilename)) //Identificacao
+		//	$this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 
         //Bottom border
         $this->SetDrawColor(99, 99, 99);
@@ -283,7 +283,8 @@ $pdf = new PDF();
 $pdf->AddFont('Verdana', 'B', '2baadfeddaf7cb6d8eb5b5d7b3dc2bfc_verdanab.php');
 $pdf->AddFont('Verdana', '', 'e1cdac2412109fd0a7bfb58b6c954d9e_verdana.php');
 $title = 'Relatório de Mapeamento';
-$pdf->SetTitle($title);
+$pdf->title = 'Relatório de Mapeamento';
+$pdf->SetTitle($title, true);
 $pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
 $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
@@ -329,5 +330,9 @@ if (isset($reportsections['99'])) {
     $pdf->ChapterNotes($reportsections['99']->texto);
 }
 
-$pdf->Output('Relatorio_Mapeamento.pdf', 'D');
+
+$fileName = $pesquisa->id . '_' . convertIsoUtf($pesquisa->titulo) . 
+                convertIsoUtf(' - Relatório_Mapeamento.pdf');
+$pdf->Output($fileName, 'D');
+//$pdf->Output('Relatorio_Mapeamento.pdf', 'D');
 ?>

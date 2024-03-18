@@ -22,7 +22,7 @@ function generateChart($items, $type='P') {
  $myPicture->myData->addPoints($data,"DataPoints");  
  $myPicture->myData->setAxisProperties(0, ["Name" => "DataPoints", "Display" => AXIS_FORMAT_METRIC, "Format" => 0]);
  $myPicture->myData->setSerieDescription("DataPoints","Quant. Respondentes");
- $myPicture->myData->setPalette("DataPoints", new pColor(19,111,16));
+ $myPicture->myData->setPalette("DataPoints", new pColor(102,0,102));  //Côr: Purpura
  $myPicture->myData->setAxisName(0,"Quantidade");
  //$myPicture->myData->setPalette("DataPoints",array("R"=>0,"G"=>102,"B"=>153));
 

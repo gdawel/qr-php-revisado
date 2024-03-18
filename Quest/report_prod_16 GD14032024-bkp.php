@@ -24,22 +24,22 @@ class PDF extends FPDFWithHtmlTable
         $this->AddPage();
 
         //Logo
-        $this->Image('CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
+        $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Logo cliente
-        //if (file_exists($this->clientelogofilename)) //Identificacao
-        //    $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
+        if (file_exists($this->clientelogofilename)) //Identificacao
+            $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
 
         $this->Ln(36);
         //Logo report
         $pacoteTipoId = $pesquisa->modeloquestionario->tipo->id;
-        $this->Image("Quest/ReportImages/report_intro_$pacoteTipoId"."_quant.png", 45, null, 125);
+        $this->Image("ReportImages/report_intro_$pacoteTipoId"."_quant.png", 45, null, 125);
 
 			//Report title
 		  	$this->SetFillColor(240);        
 		  	$this->SetTextColor(99);
 	  		$this->SetFont('Verdana', '', 12);
 			$this->Cell(25);
-			$this->Cell(125, 10, convertIsoUtf($this->title), 0, 0, 'C', true);	
+			$this->Cell(125, 10, $this->title, 0, 0, 'C', true);	
 			
 			//Identificacao
         $this->Ln(24);
@@ -53,7 +53,7 @@ class PDF extends FPDFWithHtmlTable
             return;
 
         //Logo
-        $this->Image('CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
+        $this->Image('../CSS/Images/logo_quest.jpg', $this->lMargin, 8, 37);
         //Cliente Logo
         if (file_exists($this->clientelogofilename)) //Identificacao
             $this->Image($this->clientelogofilename, null, 8, 0, 7, '', '', 'R');
@@ -254,8 +254,7 @@ $pdf = new PDF();
 $pdf->AddFont('Verdana', 'B', '2baadfeddaf7cb6d8eb5b5d7b3dc2bfc_verdanab.php');
 $pdf->AddFont('Verdana', '', 'e1cdac2412109fd0a7bfb58b6c954d9e_verdana.php');
 $title = 'Análise Quantitativa';
-$pdf->title = 'Análise Quantitativa';
-$pdf->SetTitle($title, true);
+$pdf->SetTitle(convertIsoUtf($title));
 $pdf->SetAuthor('SOBRARE - Sociedade Brasileira de Resiliência');
 $pdf->SetLeftMargin(20);
 $pdf->SetRightMargin(15);
@@ -436,8 +435,7 @@ foreach ($pesquisa->modeloquestionario->fatores as $fator) {
 		$pdf->ChapterBody("Distribuição dos Índices de Resiliência do MCD comparados com os Intervalos da Base (N:$pesquisa->count_concluidos)", 'B');
 		//grafico
 		$chartFilename = generateBarChart($dataValues, $fator);
-		// GD: 14/03/2024 - $pdf->Image($chartFilename, $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $chartWidth )/2 + 2, null, $chartWidth);
-		$pdf->Image($chartFilename, 22, null, $chartWidth);
+		$pdf->Image($chartFilename, $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $chartWidth )/2 + 2, null, $chartWidth);
 		$pdf->SetFont('Verdana', '', 6);
 		$pdf->Cell(55, 6, convertIsoUtf('©  Sociedade  Brasileria  de  Resiliência  2009.  CRPJ/SP  3825/J'), 0, 1);
 		
@@ -528,11 +526,8 @@ foreach ($pesquisa->modeloquestionario->fatores as $fator) {
 	 	
 		$pdf->ChapterBody("Gráfico Comparativo no MCD - População desta Pesquisa vs. População-Base (N:$pesquisa->count_concluidos)", 'B');
 		//grafico
-		//
-		//  DAWEL - 14/03/2024 - Retirada LineChart para não dar erro no teste
-		//
 		$chartFilename = generateLineChart($dataValues, $dataValuesPopulacaoBase, $fator);
-		$pdf->Image($chartFilename, 22, null, $chartWidth);
+		$pdf->Image($chartFilename, $pdf->lMargin+($pdf->w - 2*$pdf->lMargin - $chartWidth )/2 + 2, null, $chartWidth);
 		$pdf->SetFont('Verdana', '', 6);
 		$pdf->Cell(55, 6, convertIsoUtf('©  Sociedade  Brasileria  de  Resiliência  2009.  CRPJ/SP  3825/J'), 0, 1);
 }
