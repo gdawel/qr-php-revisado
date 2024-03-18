@@ -21,14 +21,18 @@ function generateChart($fator, $data, $labels) {
 
  $myPicture->myData->addPoints($data,"DataPoints");  
  $myPicture->myData->setAxisProperties(0, ["Name" => "DataPoints", "Display" => AXIS_FORMAT_METRIC, "Format" => 0]);
- $myPicture->myData->setSerieDescription("DataPoints","Quant. Respondentes");
+ $myPicture->myData->setSerieDescription("DataPoints","Quantidade de Respondentes");
  $myPicture->myData->setPalette("DataPoints", new pColor(0,51,0));  //Côr: Verde Escuro
- $myPicture->myData->setAxisName(0,"Quantidade");
+ $myPicture->myData->setAxisName(0,"Respondentes");
 
  /* Define the absissa serie */
  $myPicture->myData->addPoints($labels,"Labels");
  $myPicture->myData->setSerieDescription("Labels","Quantidade de Respondentes");
  $myPicture->myData->setAbscissa("Labels");
+
+ /* Write the picture title */ 
+ $myPicture->setFontProperties(["FontName"=>"Includes/pChart/fonts/Cairo-Regular.ttf","FontSize"=>12]);
+ $myPicture->drawText(350,22,"Respondentes nas Condições de Fortaleza - MCD $fator->nome",array("Align"=>TEXT_ALIGN_BOTTOMMIDDLE,"R"=>0,"G"=>0,"B"=>0));
 
  /* Add a border to the picture */
 $myPicture->drawRectangle(0,0,699,400,["Color"=>new pColor(0)]);
@@ -37,13 +41,14 @@ $myPicture->drawRectangle(0,0,699,400,["Color"=>new pColor(0)]);
 $myPicture->setFontProperties(["FontName"=>"Includes/pChart/fonts/Cairo-Regular.ttf","FontSize"=>8]);
 
 /* Define the chart area */
-$myPicture->setGraphArea(150,70,620,370);
+$myPicture->setGraphArea(150,70,620,350);
 
 /* Draw the scale */
 $myPicture->drawScale(["GridColor"=>new pColor(200),"DrawSubTicks"=>TRUE,"CycleBackground"=>TRUE,"Pos"=>SCALE_POS_TOPBOTTOM]);
 
 /* Write the chart legend */
-$myPicture->drawLegend(580,12,["Style"=>LEGEND_NOBORDER,"Mode"=>LEGEND_HORIZONTAL]);
+$myPicture->setFontProperties(["FontSize"=>10]);
+$myPicture->drawLegend(250,380,["Style"=>LEGEND_ROUND,"Mode"=>LEGEND_HORIZONTAL,"Family"=>LEGEND_FAMILY_BOX]);
 
 /* Turn on shadow computing */ 
 $myPicture->setShadow(TRUE,["X"=>1,"Y"=>1,"Color"=>new pColor(0,0,0,10)]);

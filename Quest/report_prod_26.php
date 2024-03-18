@@ -326,7 +326,7 @@ foreach ($pesquisa->modeloquestionario->fatores as $fator) {
 
     $imgWidth = 172;
     $filename = generateChart(
-            $fator, array($countSegPCI, $countSegPCP, $countExc), array('Condição de Fortaleza - PC-I', 'Condição de Fortaleza - PC-P', 'Condição de Excelente')
+            $fator, array($countSegPCI, $countSegPCP, $countExc), array('Condição de Fortaleza - PC-I  ', 'Condição de Fortaleza - PC-P  ', 'Condição de Excelente  ')
     );
     //$pdf->Image("_tmp/$filename", $pdf->lMargin + ($pdf->w - 2 * $pdf->lMargin - $imgWidth ) / 2 + 2, null, $imgWidth);
     $pdf->Image("$filename", 22, null, $imgWidth);
